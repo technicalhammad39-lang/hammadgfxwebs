@@ -180,10 +180,10 @@ export const reviews: Review[] = [
 ];
 
 export const cardData: CardData[] = [
-  { title: "Jewellery Design", imageSrc: "/Rectangle 7.svg" },
-  { title: "Mehndi Expert", imageSrc: "/Rectangle 7.svg" },
-  { title: "Fashion Designer", imageSrc: "/Rectangle 7.svg" },
-  { title: "Craft Expert", imageSrc: "/Rectangle 7.svg" },
-  { title: "Beauty & Imitation", imageSrc: "/Rectangle 7.svg" },
+  { title: "Logo Design", imageSrc: "/Rectangle 7.svg" },
+  { title: "Strategic Visuals", imageSrc: "/Rectangle 7.svg" },
+  { title: "Social Media", imageSrc: "/Rectangle 7.svg" },
+  { title: "Art Expert", imageSrc: "/Rectangle 7.svg" },
+  { title: "Print Designs", imageSrc: "/Rectangle 7.svg" },
   { title: "Designer Studio", imageSrc: "/Rectangle 7.svg" },
 ];

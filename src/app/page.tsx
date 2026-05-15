@@ -90,20 +90,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="w-full px-5 sm:px-6 lg:px-[71px] py-10 sm:py-14 lg:py-16">
-        <div className="w-full max-w-[1298px] mx-auto rounded-[28px] sm:rounded-[40px] bg-[#F2F4F7] px-5 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-12 flex flex-col lg:flex-row gap-6 lg:gap-12 items-start lg:items-center justify-between">
-          <div className="max-w-[540px]">
-            <CustomeText title="Design Is Not Decoration." className="font-semibold text-[34px] sm:text-[46px] lg:text-[56px] leading-[0.98] text-[#344054]" />
-            <CustomeText title="It's Your First Impression." className="font-semibold text-[34px] sm:text-[46px] lg:text-[56px] leading-[0.98] text-[#FD853A] mt-1" />
-          </div>
-          <div className="max-w-[590px] flex flex-col gap-4 text-[#667085] text-base sm:text-lg lg:text-[20px] leading-relaxed">
-            <p>I&apos;m a graphic designer focused on creating premium visual identities, social media designs, and marketing creatives for businesses that want to look trusted, professional, and impossible to ignore.</p>
-            <p>My goal is not just to make things look beautiful. I design visuals that help your brand create a stronger first impression and attract better clients.</p>
-          </div>
-        </div>
-      </section>
-
       {/* Services */}
       <section id="services" className="relative flex flex-col w-full min-h-0 gap-8 sm:gap-12 lg:gap-16 items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden">
         <Image
