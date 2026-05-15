@@ -6,7 +6,14 @@ import Link from "next/link";
 import ClientOnly from "./ui/ClientOnly";
 
 const Footer = () => {
-    const navigation = ["Home", "About", "Service", "Resume", "Project", "Contact"];
+    const navigation = [
+        { label: "Home", href: "#home" },
+        { label: "About", href: "#about" },
+        { label: "Service", href: "#services" },
+        { label: "Resume", href: "/HammadGfx-CV.pdf", download: true },
+        { label: "Project", href: "#projects" },
+        { label: "Contact", href: "#contact" },
+    ];
     const iconsAndUrl = [
         { icon: FacebookIcon, url: "https://facebook.com" },
         { icon: YoutubeIcon, url: "https://youtube.com" },
@@ -30,13 +37,13 @@ const Footer = () => {
                     Let&apos;s Connect There
                 </h1>
                 <ClientOnly>
-                    <button className="group flex items-center justify-center gap-2 w-full sm:w-[180px] lg:w-[202px] h-[50px] sm:h-[56px] lg:h-[62px] px-4 sm:px-5 py-2 sm:py-2.5 text-white text-base sm:text-lg font-semibold rounded-full bg-[#FD853A] cursor-pointer hover:bg-[#e46e24] transition-colors">
+                    <a href="#contact" className="group flex items-center justify-center gap-2 w-full sm:w-[180px] lg:w-[202px] h-[50px] sm:h-[56px] lg:h-[62px] px-4 sm:px-5 py-2 sm:py-2.5 text-white text-base sm:text-lg font-semibold rounded-full bg-[#FD853A] cursor-pointer hover:bg-[#e46e24] transition-colors">
                         Hire Me
                         <ArrowUpRight
                             size={24}
                             className="sm:w-7 sm:h-7 lg:w-8 lg:h-8 transition-transform duration-300 group-hover:rotate-45"
                         />
-                    </button>
+                    </a>
                 </ClientOnly>
             </div>
 
@@ -49,10 +56,10 @@ const Footer = () => {
                     <div className="flex gap-3 sm:gap-4 items-center flex-shrink-0 cursor-pointer">
                         <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-[#FD853A] rounded-full flex items-center justify-center mb-1">
                             <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-6 lg:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <text x="4" y="18" fontSize="12" className="sm:text-sm lg:text-base" fontWeight="bold" fill="white">JC</text>
+                                <text x="2" y="18" fontSize="12" className="sm:text-sm lg:text-base" fontWeight="bold" fill="white">HG</text>
                             </svg>
                         </div>
-                        <span className="font-bold text-base sm:text-lg tracking-wide cursor-pointer">JCREA</span>
+                        <span className="font-bold text-base sm:text-lg tracking-wide cursor-pointer">HMGFX</span>
                     </div>
                     <p className="w-full h-auto lg:h-[61px] text-[16px] sm:text-[18px] lg:text-[20px] text-[#FCFCFD]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.</p>
                     <div className="flex gap-2 sm:gap-2.5">
@@ -61,7 +68,7 @@ const Footer = () => {
                             return (
                                 <Link
                                     key={idx}
-                                    href={`https://${item.url}`}
+                                    href={item.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10  rounded-full flex hover:scale-110 transition-transform bg-[#333333] hover:bg-[#444444] items-center justify-center"
@@ -76,10 +83,15 @@ const Footer = () => {
                 <div className="flex flex-col gap-5 lg:gap-7">
                     <CustomeText title="Navigation" className="text-[18px] sm:text-[19px] lg:text-[20px] font-semibold text-[#FD853A]" />
                     <div className="flex flex-col gap-3 lg:gap-5">
-                        {navigation.map((key, idx) => (
-                            <Link href={`#${key.toLowerCase()}`} key={idx} className="text-[#FCFCFD] text-[14px] sm:text-[15px] lg:text-[16px] cursor-pointer hover:text-[#FD853A] transition-colors">
-                                {key}
-                            </Link>
+                        {navigation.map((item, idx) => (
+                            <a
+                                href={item.href}
+                                download={item.download}
+                                key={idx}
+                                className="text-[#FCFCFD] text-[14px] sm:text-[15px] lg:text-[16px] cursor-pointer hover:text-[#FD853A] transition-colors"
+                            >
+                                {item.label}
+                            </a>
                         ))}
                     </div>
                 </div>
@@ -120,7 +132,7 @@ const Footer = () => {
             <div className="border border-[#475467] w-full mt-8 lg:mt-16"></div>
 
             <div className="flex flex-col sm:flex-row w-full max-w-[1298px] h-auto lg:h-[26px] items-start justify-between gap-4 sm:gap-0 mt-6 md:mt-0">
-                <p className="w-full sm:w-[415px] h-auto lg:h-[26px] text-[16px] sm:text-[18px] lg:text-[20px] text-white text-center sm:text-left">Copyright© 2023 Jayesh. All Rights Reserved.</p>
+                <p className="w-full sm:w-[415px] h-auto lg:h-[26px] text-[16px] sm:text-[18px] lg:text-[20px] text-white text-center sm:text-left">Copyright (c) 2023 Hammad. All Rights Reserved.</p>
                 <Link href={"#"} className="w-full sm:w-fit h-auto lg:h-[26px] text-[16px] sm:text-[18px] lg:text-[20px] text-white text-center sm:text-right hover:text-[#FD853A] transition-colors">Privacy Policy</Link>
             </div>
         </footer>

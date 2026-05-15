@@ -46,10 +46,10 @@ export function GenericSlider<T extends AllowedCard>({
     // Return a placeholder during SSR to prevent hydration mismatch
     return (
       <div className={`relative w-full flex flex-col justify-center items-center ${heightClass || ''}`}>
-        <div className={`w-full px-4 sm:px-6 lg:px-0 ${!isReview ? 'max-w-[1440px]' : ''}`}>
-          <div className="flex gap-4 overflow-x-auto">
+        <div className={`w-full max-w-full px-0 sm:px-6 lg:px-0 ${!isReview ? 'lg:max-w-[1440px]' : ''}`}>
+          <div className="flex gap-4 overflow-hidden">
             {data.slice(0, 3).map((item, index) => (
-              <div key={index} className="flex-shrink-0 w-full max-w-sm">
+              <div key={index} className="flex-shrink-0 w-full max-w-[calc(100vw-40px)] sm:max-w-sm">
                 {cardType === 'hover' && 'title' in item && 'imageSrc' in item && (
                   <ServicesCard title={item.title} imageSrc={item.imageSrc} priority={index === 0} />
                 )}
@@ -90,11 +90,11 @@ export function GenericSlider<T extends AllowedCard>({
 
   return (
     <div className={`relative w-full flex flex-col justify-center items-center ${heightClass || ''}`}>
-      <div className={`w-full px-4 sm:px-6 lg:px-0 ${!isReview ? 'max-w-[1440px]' : ''}`}>
+      <div className={`w-full max-w-full px-0 sm:px-6 lg:px-0 ${!isReview ? 'lg:max-w-[1440px]' : ''}`}>
         <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={20}
-          centeredSlides={isReview}
+          centeredSlides={false}
           loop={true}
           autoplay={{
             delay: 3000,
@@ -123,12 +123,12 @@ export function GenericSlider<T extends AllowedCard>({
               spaceBetween: 24,
             },
           }}
-          className="!pb-16"
+          className="!pb-12 sm:!pb-16"
         >
           {data.map((item, index) => (
             <SwiperSlide
               key={index}
-              className={`${isReview ? '!w-full sm:!w-[90%] md:!w-[784px]' : '!flex justify-center'}`}
+              className="!flex !justify-center"
             >
               {cardType === 'hover' && 'title' in item && 'imageSrc' in item && (
                 <ServicesCard title={item.title} imageSrc={item.imageSrc} priority={index === 0} />

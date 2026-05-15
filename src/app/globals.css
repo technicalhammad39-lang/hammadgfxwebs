@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+section {
+  scroll-margin-top: 110px;
+}
+
 .marquee {
     animation: scroll-left 10s linear infinite;
 }
@@ -55,4 +79,20 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #e4752f;
+}
+
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 90px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 42px !important;
+    height: 10px !important;
+  }
 }

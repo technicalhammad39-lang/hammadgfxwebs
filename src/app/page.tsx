@@ -11,83 +11,101 @@ import ClientOnly from "@/components/ui/ClientOnly";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-full bg-white py-10 flex flex-col items-center justify-start">
+    <div className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-white pt-4 sm:pt-6 pb-0 flex flex-col items-center justify-start">
       <Navbar />
 
       {/* Hero Section */}
-      <div className="group flex flex-col md:flex-row w-full min-h-[600px] sm:min-h-[700px] lg:h-[700] lg:-mb-2 xl:mb-0 xl:h-[846px] px-4 sm:px-6 md:px-8 gap-6 sm:gap-8 md:gap-[71px] items-center justify-center mt-6">
-        <div className="hidden lg:flex flex-col w-[328px] h-[138px] items-start justify-start transition-transform duration-300 ease-in-out group-hover:-translate-y-[250px]">
+      <section id="home" className="group relative flex flex-col w-full max-w-[1440px] min-h-[560px] sm:min-h-[620px] lg:min-h-[660px] px-5 sm:px-6 lg:px-[52px] xl:px-[71px] gap-4 sm:gap-6 items-center justify-center pt-4 sm:pt-6 lg:pt-8 pb-0 sm:pb-4">
+        <div className="hidden lg:flex lg:absolute lg:left-[52px] xl:left-[71px] lg:top-[300px] xl:top-[320px] flex-col w-[300px] xl:w-[328px] min-h-[138px] items-start justify-start transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
           <div className="text-[#344054] text-[36px] leading-none">&quot;</div>
           <p className="text-[#344054] text-[16px] font-medium leading-snug">
-            Abhiruchi&apos;s exceptional product design ensured our website&apos;s success.
-            <br />
-            Highly recommended.
+            I create premium logos, brand identities, social media designs, and marketing visuals that help businesses look trusted, professional, and impossible to ignore.
           </p>
         </div>
 
-        <div className="relative w-full flex flex-col items-center justify-center">
-          <div className="flex w-full max-w-[952px] flex-col items-center justify-center  transition-all duration-300 ease-in-out group-hover:translate-y-[280px] group-hover:opacity-0 px-4 sm:px-6">
-            <ClientOnly>
-              <button className="h-[45px] px-[26px] py-[13px] translate-y-0 md:translate-y-10 rounded-full border border-[#171717] flex items-center justify-center bg-white mt-10">
-                Hello!
-              </button>
-            </ClientOnly>
-            <div className="flex flex-col sm:flex-row sm:gap-2 items-center sm:items-end mb-1 mt-6 sm:mt-8">
-              <CustomeText title="I&apos;m" className="text-[#171717] font-semibold text-4xl sm:text-5xl md:text-7xl xl:text-[88px]" />
-              <div className="flex items-end">
-                <CustomeText title="Hammad" className="text-[#FD853A] font-semibold text-4xl sm:text-5xl md:text-7xl xl:text-[88px]" />
-                <CustomeText title="," className="text-[#171717] font-semibold text-4xl sm:text-5xl md:text-7xl xl:text-[88px]" />
-              </div>
+        <div className="relative w-full min-w-0 flex flex-col items-center justify-center">
+          <div className="flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
+            <span className="h-[42px] px-[24px] py-[10px] rounded-full border border-[#171717] flex items-center justify-center bg-white mt-1 sm:mt-2 text-[#171717] text-sm sm:text-base">
+              Hello!
+            </span>
+            <h1 className="mt-4 sm:mt-5 flex w-full max-w-full flex-col items-center text-center font-semibold leading-[0.95] text-[clamp(38px,10.8vw,64px)] sm:text-[64px] md:text-[74px] xl:text-[88px] text-[#171717]">
+              <span>
+                I&apos;m <span className="text-[#FD853A]">Hammad</span>,
+              </span>
+              <span>Professional Visual</span>
+              <span>Designer</span>
+            </h1>
+            <div className="mt-5 w-full flex flex-col gap-3 md:hidden">
+              <a href="#projects" className="w-full rounded-full bg-[#FD853A] px-6 py-3.5 text-center text-base font-semibold text-white shadow-md transition-colors hover:bg-[#e4752f]">
+                View Portfolio
+              </a>
+              <a href="#contact" className="w-full rounded-full border border-[#171717] px-6 py-3.5 text-center text-base font-semibold text-[#171717] transition-colors hover:bg-[#171717] hover:text-white">
+                Hire Me
+              </a>
             </div>
-            <CustomeText title="Professional Designer" className="text-[#171717] font-semibold text-4xl sm:text-5xl md:text-7xl xl:text-[88px] text-center" />
           </div>
 
-          <div className="relative w-full max-w-[952px] aspect-[3/2] flex flex-col items-center justify-center -translate-y-[10%] sm:-translate-y-[15%] md:-translate-y-[20%] mx-auto px-4">
-            <div className="absolute bottom-0 z-0 w-[90%] max-w-[812px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto">
+          <div className="relative w-full max-w-[760px] lg:max-w-[760px] xl:max-w-[800px] aspect-[1.28/1] sm:aspect-[3/2] flex flex-col items-center justify-center -mt-2 sm:-mt-6 lg:-mt-20 mx-auto px-2 sm:px-4">
+            <div className="absolute bottom-0 z-0 w-[78%] max-w-[640px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto">
               <div className="absolute w-full h-full bg-[#FEB273] rounded-t-full" />
             </div>
 
-            <div className="absolute z-10 transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-105">
+            <div className="absolute bottom-[2%] z-10 hidden w-[78%] max-w-[640px] md:block transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100">
               <Image
                 src="/Frame 68.svg"
                 alt="Frame Decoration"
                 width={1017}
                 height={688}
                 className="object-contain w-full h-auto"
+                sizes="(max-width: 768px) 78vw, 640px"
                 priority
               />
             </div>
 
             <Image
-              src="/girl.svg"
-              alt="abhiruchi"
+              src="/my-pic.webp"
+              alt="Hammad graphic designer portrait"
               width={952}
               height={636}
-              className="relative z-20 w-full h-auto object-contain mt-5"
+              className="relative z-20 w-[68%] max-w-[460px] sm:w-[62%] md:w-[56%] lg:w-[50%] xl:w-[48%] h-auto translate-y-8 object-contain mt-0"
               priority
             />
 
-            <div className="absolute bottom-[10%] z-30 w-full hidden md:flex justify-center">
+            <div className="absolute bottom-[9%] z-30 w-full hidden md:flex justify-center px-4">
               <DualToggleButtons />
             </div>
           </div>
         </div>
 
-        <div className="hidden lg:flex w-[169px] h-[125px] flex-col items-end justify-end gap-2 transition-transform duration-300 ease-in-out group-hover:-translate-y-[250px]">
+        <div className="hidden lg:flex lg:absolute lg:right-[52px] xl:right-[71px] lg:top-[350px] xl:top-[370px] w-[190px] h-[125px] flex-col items-end justify-end gap-2 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={32} fill="#FD853A" stroke="#FD853A" />
             ))}
           </div>
           <h1 className="text-[32px] font-bold text-[#171717] leading-none whitespace-nowrap">
-            10 Years
+            3+ Years
           </h1>
           <p className="text-sm text-[#171717]">Experience</p>
         </div>
-      </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="w-full px-5 sm:px-6 lg:px-[71px] py-10 sm:py-14 lg:py-16">
+        <div className="w-full max-w-[1298px] mx-auto rounded-[28px] sm:rounded-[40px] bg-[#F2F4F7] px-5 sm:px-8 lg:px-12 py-8 sm:py-10 lg:py-12 flex flex-col lg:flex-row gap-6 lg:gap-12 items-start lg:items-center justify-between">
+          <div className="max-w-[540px]">
+            <CustomeText title="Design Is Not Decoration." className="font-semibold text-[34px] sm:text-[46px] lg:text-[56px] leading-[0.98] text-[#344054]" />
+            <CustomeText title="It's Your First Impression." className="font-semibold text-[34px] sm:text-[46px] lg:text-[56px] leading-[0.98] text-[#FD853A] mt-1" />
+          </div>
+          <div className="max-w-[590px] flex flex-col gap-4 text-[#667085] text-base sm:text-lg lg:text-[20px] leading-relaxed">
+            <p>I&apos;m a graphic designer focused on creating premium visual identities, social media designs, and marketing creatives for businesses that want to look trusted, professional, and impossible to ignore.</p>
+            <p>My goal is not just to make things look beautiful. I design visuals that help your brand create a stronger first impression and attract better clients.</p>
+          </div>
+        </div>
+      </section>
 
       {/* Services */}
-      <div className="relative flex flex-col w-full min-h-[878px] gap-16 sm:gap-[96px] items-center px-4 sm:px-6 lg:px-[71px] py-16 sm:py-[116px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden -translate-y-8 sm:-translate-y-0 md:-translate-y-15 lg:translate-y-0 -mt-14">
+      <section id="services" className="relative flex flex-col w-full min-h-0 gap-8 sm:gap-12 lg:gap-16 items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden">
         <Image
           src="/Frame 77.svg"
           alt="image"
@@ -110,15 +128,15 @@ export default function Home() {
           <GenericSlider
             data={cardData}
             slidesPerView={3}
-            heightClass="h-[500px] sm:h-[550px]"
+            heightClass="h-auto"
             cardType="hover"
           />
         </div>
-      </div>
+      </section>
 
       {/* Work Experience */}
-      <div className="w-full min-h-[600px] lg:h-[827px] flex flex-col items-start mx-auto px-4 sm:px-6 lg:px-[71px] py-8 lg:py-16">
-        <div className="w-full h-auto lg:h-[234px] flex lg:flex-row items-start justify-center space-x-2.5 mb-8 lg:mb-16 text-center lg:text-left">
+      <section className="w-full min-h-0 lg:min-h-[760px] flex flex-col items-start mx-auto px-5 sm:px-6 lg:px-[71px] py-10 lg:py-14">
+        <div className="w-full h-auto lg:h-[180px] flex flex-wrap lg:flex-row items-start justify-center gap-x-2.5 mb-8 lg:mb-12 text-center lg:text-left">
           <CustomeText title="My" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#344054]" />
           <CustomeText title="Work" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#FD853A]" />
           <CustomeText title="Experience" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#FD853A]" />
@@ -177,16 +195,17 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Hire Me */}
-      <div className="w-full flex flex-col lg:flex-row items-center justify-between px-6 lg:px-[71px] py-20 lg:py-[122px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-12 lg:gap-[96px]">
-        <div className="relative w-full max-w-[500px] aspect-square group mx-auto lg:mx-0">
+      <section className="w-full flex flex-col lg:flex-row items-center justify-between px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-8 lg:gap-[76px]">
+        <div className="relative w-full max-w-[360px] sm:max-w-[460px] lg:max-w-[500px] aspect-square group mx-auto lg:mx-0">
           <Image
-            src="/Property 1=Default.svg"
+            src="/pic2.webp"
             alt="Hire me"
             fill
             className="object-contain z-10 transition-all duration-300 ease-in-out group-hover:translate-y-3"
+            sizes="(max-width: 768px) 90vw, 500px"
             priority
           />
 
@@ -195,12 +214,13 @@ export default function Home() {
             alt="Hire me"
             fill
             className="object-contain absolute -translate-y-[15px] transition-all duration-300 ease-in-out opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-110"
+            sizes="(max-width: 768px) 90vw, 500px"
             priority
           />
         </div>
 
-        <div className="w-full max-w-xl flex flex-col items-start gap-8">
-          <div className="flex flex-wrap text-4xl sm:text-5xl lg:text-6xl font-semibold gap-2">
+        <div className="w-full max-w-xl flex flex-col items-start gap-6 sm:gap-8">
+          <div className="flex flex-wrap text-[36px] sm:text-5xl lg:text-6xl font-semibold gap-2 leading-tight">
             <CustomeText title="Why" className="text-[#344054]" />
             <CustomeText title="Hire me" className="text-[#FD853A]" />
             <CustomeText title="?" className="text-[#344054]" />
@@ -213,60 +233,60 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-8 w-full">
             <div className="flex flex-col">
               <CustomeText
-                title="450+"
+                title="100+"
                 className="text-[32px] sm:text-[36px] font-medium text-[#1D2939]"
               />
               <CustomeText
-                title="Project Completed"
+                title="Designs Completed"
                 className="text-lg text-[#667085]"
               />
             </div>
             <div className="flex flex-col">
               <CustomeText
-                title="450+"
+                title="3+"
                 className="text-[32px] sm:text-[36px] font-medium text-[#1D2939]"
               />
               <CustomeText
-                title="Project Completed"
+                title="Years Experience"
                 className="text-lg text-[#667085]"
               />
             </div>
           </div>
 
           <ClientOnly>
-            <button className="w-full cursor-pointer sm:w-auto px-6 py-4 rounded-[20px] border border-[#151515] text-[#151515] font-semibold text-2xl sm:text-[28px] transition-all duration-300 hover:bg-[#151515] hover:text-white">
+            <a href="#contact" className="w-full cursor-pointer sm:w-auto px-6 py-3.5 rounded-[20px] border border-[#151515] text-[#151515] font-semibold text-xl sm:text-[24px] transition-all duration-300 hover:bg-[#151515] hover:text-white text-center">
               Hire me
-            </button>
+            </a>
           </ClientOnly>
         </div>
-      </div>
+      </section>
 
       {/* Portfolio */}
-      <div className="w-full flex flex-col items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-20 gap-10 lg:gap-12">
+      <section id="projects" className="w-full flex flex-col items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12">
         <div className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
             <CustomeText
               title="Lets Have a look at"
-              className="font-semibold text-[32px] sm:text-[48px] lg:text-[64px] text-[#344054]"
+              className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
             />
             <div className="flex items-start justify-start gap-4 flex-wrap">
               <CustomeText
                 title="my"
-                className="font-semibold text-[32px] sm:text-[48px] lg:text-[64px] text-[#344054]"
+                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
               />
               <CustomeText
                 title="Portfolio"
-                className="font-semibold text-[32px] sm:text-[48px] lg:text-[64px] text-[#FD853A]"
+                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#FD853A]"
               />
             </div>
           </div>
 
           <div className="shrink-0">
-            <OrangeButton title="See All" />
+            <OrangeButton title="See All" className="w-[118px] h-[52px] px-6 py-3 text-base sm:w-[144px] sm:h-[60px] sm:text-[18px]" />
           </div>
         </div>
 
-        <div className="w-full flex flex-col items-center gap-10 lg:gap-12 max-w-[1290px]">
+        <div className="w-full flex flex-col items-center gap-8 lg:gap-12 max-w-[1290px]">
           <GenericSlider
             data={portfolioData}
             slidesPerView={2}
@@ -279,7 +299,7 @@ export default function Home() {
               {buttons.map((text, index) => (
                 <button
                   key={index}
-                  className="px-6 sm:px-8 py-3 rounded-[24px] bg-[#F2F4F7] text-[#000000] text-[16px] sm:text-[18px] lg:text-[20px] hover:bg-[#FD853A] hover:text-white transition-colors duration-300"
+                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 rounded-[24px] bg-[#F2F4F7] text-[#000000] text-sm sm:text-[18px] lg:text-[20px] hover:bg-[#FD853A] hover:text-white transition-colors duration-300"
                 >
                   {text}
                 </button>
@@ -302,10 +322,10 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Testimonials */}
-      <div className="relative flex flex-col w-full min-h-[900px] items-center px-4 sm:px-6 lg:px-[71px] py-12 sm:py-[96px]  gap-12 bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] overflow-hidden">
+      <section className="relative flex flex-col w-full min-h-0 items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[90px] gap-8 sm:gap-12 bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] overflow-hidden">
         <Image
           src="/Frame 77.svg"
           alt="image"
@@ -335,7 +355,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="absolute bottom-[20%] left-0 right-0 w-full z-10">
+        <div className="relative w-full z-10">
           <GenericSlider
             data={reviews}
             slidesPerView={3}
@@ -343,29 +363,29 @@ export default function Home() {
             cardType="review"
           />
         </div>
-      </div>
+      </section>
 
 
       {/* Contact */}
-      <div className="w-full bg-white flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-[71px] gap-10">
-        <div className="w-full max-w-4xl text-center flex flex-col items-center gap-4">
+      <section id="contact" className="w-full bg-white flex flex-col items-center justify-center py-12 sm:py-16 px-5 sm:px-6 lg:px-[71px] gap-8 sm:gap-10">
+        <div className="w-full max-w-4xl text-center flex flex-col items-center gap-3 sm:gap-4">
           <CustomeText
             title="Have an Awesome Project"
-            className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
+            className="font-semibold text-[32px] sm:text-4xl md:text-5xl lg:text-[64px] leading-tight text-[#344054]"
           />
           <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
             <CustomeText
               title="Idea?"
-              className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#344054]"
+              className="font-semibold text-[32px] sm:text-4xl md:text-5xl lg:text-[64px] leading-tight text-[#344054]"
             />
             <CustomeText
               title="Let's Discuss"
-              className="font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-[#FD853A]"
+              className="font-semibold text-[32px] sm:text-4xl md:text-5xl lg:text-[64px] leading-tight text-[#FD853A]"
             />
           </div>
         </div>
 
-        <div className="w-full max-w-3xl flex md:flex-row items-center justify-between gap-4 px-3 py-2 md:px-6 md:py-4 rounded-full border border-[#E4E7EC] bg-white">
+        <div className="w-full max-w-3xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-3 py-3 md:px-6 md:py-4 rounded-[28px] sm:rounded-full border border-[#E4E7EC] bg-white">
           <div className="w-9 h-9 md:w-[50px] md:h-[50px] flex items-center justify-center rounded-full bg-[#FFEAD5] shrink-0">
             <Image
               src="/sms.svg"
@@ -382,7 +402,7 @@ export default function Home() {
               className="w-full md:flex-1 px-4 py-2 rounded-full text-center md:text-left text-base sm:text-lg outline-none bg-transparent text-[#1D2939] placeholder:text-[#667085]"
             />
 
-            <button className="w-fit px-6 md:px-12 py-1 md:py-3 rounded-full bg-[#FD853A] hover:bg-[#e4752f] text-white text-lg font-semibold transition duration-300">
+            <button className="w-full sm:w-fit px-6 md:px-12 py-2.5 md:py-3 rounded-full bg-[#FD853A] hover:bg-[#e4752f] text-white text-base sm:text-lg font-semibold transition duration-300">
               Send
             </button>
           </ClientOnly>
@@ -399,20 +419,42 @@ export default function Home() {
             );
           })}
         </div>
-      </div>
+      </section>
 
       {/* Skills Slider */}
-      <div className="relative w-full h-[147px] bg-[#FB6514] rounded-tl-4xl rounded-br-4xl overflow-hidden">
-        <div className="absolute w-[5000px] h-[63px] bg-white -rotate-2 -mt-2 md:mt-0 md:-rotate-[1.9deg] z-10 -ml-2 flex items-center">
-          <div className="marquee flex gap-8 w-max">
+      <div className="relative w-full h-[100px] sm:h-[147px] bg-[#FB6514] rounded-tl-4xl rounded-br-4xl overflow-hidden">
+        <div className="absolute top-6 sm:top-8 left-0 w-full h-[52px] sm:h-[63px] bg-white -rotate-2 md:-rotate-[1.9deg] z-10 flex items-center overflow-hidden">
+          <div className="hidden sm:flex marquee gap-8 w-max">
             {[...skills, ...skills].map((skill, index) => (
               <div
                 key={index}
                 className="flex items-center gap-5 text-[#000000] text-[48px] whitespace-nowrap"
               >
                 <svg
-                  width="34"
-                  height="34"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 35 35"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.4828 0.257982L21.715 12.3411L34.2082 16.5003L22.1251 21.7324L17.9659 34.2256L12.7337 22.1425L0.240553 17.9833L12.3237 12.7512L16.4828 0.257982Z"
+                    fill="#FD853A"
+                  />
+                </svg>
+                {skill}
+              </div>
+            ))}
+          </div>
+          <div className="flex sm:hidden w-full justify-center gap-4 overflow-hidden px-6">
+            {skills.slice(0, 2).map((skill, index) => (
+              <div
+                key={index}
+                className="flex shrink-0 items-center gap-2 text-[#000000] text-[22px] whitespace-nowrap"
+              >
+                <svg
+                  width="20"
+                  height="20"
                   viewBox="0 0 35 35"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -430,10 +472,10 @@ export default function Home() {
       </div>
 
       {/* Blog */}
-      <div className="flex flex-col w-fll h-fit items-center gap-12 px-[71px] py-[97px]">
-        <div className="w-[1298px] h-[126px] flex flex-col lg:flex-row items-center justify-between gap-6 mb-6 md:mb-0">
-          <h1 className="text-[#344054] w-fit md:min-w-[215px] h-full font-bold text-4xl md:text-5xl">From my blog post</h1>
-          <OrangeButton title="See All" className="w-[300px] md:w-fit" />
+      <section className="flex flex-col w-full h-fit items-center gap-8 sm:gap-12 px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[90px] overflow-hidden">
+        <div className="w-full max-w-[1298px] h-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-0">
+          <h1 className="text-[#344054] w-full lg:w-fit md:min-w-[215px] h-auto font-bold text-[32px] sm:text-4xl md:text-5xl leading-tight">From my blog post</h1>
+          <OrangeButton title="See All" className="w-[118px] h-[52px] px-6 py-3 text-base sm:w-[144px] sm:h-[60px] sm:text-[18px]" />
         </div>
         <GenericSlider
           data={blogs}
@@ -441,7 +483,7 @@ export default function Home() {
           heightClass=""
           cardType="blog"
         />
-      </div>
+      </section>
 
     </div>
   );

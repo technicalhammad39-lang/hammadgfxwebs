@@ -7,18 +7,19 @@ export default function DualToggleButtons() {
   const [active, setActive] = useState<"portfolio" | "hire">("portfolio");
 
   return (
-    <div className="flex border-b-2 border-white bg-white/10 backdrop-blur-[5px] rounded-full gap-[10px] p-[10px] w-[367px] h-[82px] items-center justify-center">
-      {/* Portfolio Button */}
-      <button
+    <div className="flex w-full max-w-[390px] border-b-2 border-white bg-white/10 backdrop-blur-[5px] rounded-full gap-2 p-2 sm:p-[10px] min-h-[70px] sm:min-h-[82px] items-center justify-center">
+      <a
+        href="#projects"
         onMouseEnter={() => setActive("portfolio")}
-        className={`group flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer
+        onFocus={() => setActive("portfolio")}
+        className={`group flex flex-1 items-center justify-center gap-2 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer whitespace-nowrap
           ${
             active === "portfolio"
-              ? "bg-[#FD853A] text-white font-medium text-[25px] w-[208px] h-[62px] border border-[#D0D5DD] shadow-md"
-              : "bg-transparent text-white font-light text-[18px] w-[129px] h-[54px]"
+              ? "bg-[#FD853A] text-white font-medium text-[16px] sm:text-[22px] h-[54px] sm:h-[62px] border border-[#D0D5DD] shadow-md"
+              : "bg-transparent text-white font-light text-[15px] sm:text-[18px] h-[50px] sm:h-[54px]"
           }`}
       >
-        Portfolio
+        View Portfolio
         <ArrowUpRight
           size={16}
           className={`transition-all duration-300 ${
@@ -27,16 +28,17 @@ export default function DualToggleButtons() {
               : "opacity-0 -translate-x-1 group-hover:opacity-100"
           }`}
         />
-      </button>
+      </a>
 
-      {/* Hire Me Button */}
-      <button
+      <a
+        href="#contact"
         onMouseEnter={() => setActive("hire")}
-        className={`group flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer
+        onFocus={() => setActive("hire")}
+        className={`group flex flex-1 items-center justify-center gap-2 rounded-[60px] transition-all duration-300 ease-in-out cursor-pointer whitespace-nowrap
           ${
             active === "hire"
-              ? "bg-[#FD853A] text-white font-medium text-[25px] w-[208px] h-[62px] border border-[#D0D5DD] shadow-md"
-              : "bg-transparent text-white font-light text-[18px] w-[129px] h-[54px]"
+              ? "bg-[#FD853A] text-white font-medium text-[16px] sm:text-[22px] h-[54px] sm:h-[62px] border border-[#D0D5DD] shadow-md"
+              : "bg-transparent text-white font-light text-[15px] sm:text-[18px] h-[50px] sm:h-[54px]"
           }`}
       >
         Hire me
@@ -48,7 +50,7 @@ export default function DualToggleButtons() {
               : "opacity-0 -translate-x-1 group-hover:opacity-100"
           }`}
         />
-      </button>
+      </a>
     </div>
   );
 }

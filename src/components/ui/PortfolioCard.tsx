@@ -12,7 +12,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
     <div
       className="relative group 
         w-full 
-        md:w-[633px] h-[250px] md:h-[371px] 
+        max-w-[633px] h-[230px] sm:h-[300px] md:h-[371px]
         md:max-w-none 
         rounded-[16px] md:rounded-[20px] 
         overflow-hidden transition-all duration-300 cursor-pointer 
@@ -37,6 +37,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
         alt={title}
         fill
         className="object-cover z-0"
+        sizes="(max-width: 768px) 92vw, (max-width: 1280px) 50vw, 633px"
         priority={priority}
       />
 
@@ -58,7 +59,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
 
         {/* Title */}
         <h1 className="px-3 pb-2 md:px-4 md:pb-4 font-bold 
-          text-[24px] sm:text-[28px] md:text-[70px] 
+          text-[24px] sm:text-[34px] md:text-[52px] lg:text-[64px]
           text-[#FFFAF5] leading-[1]"
         >
           {title}
@@ -73,10 +74,10 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc,
           opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 
           transition-all duration-500 ease-in-out z-30"
         >
-          <h1 className="text-[18px] md:text-[32px] font-bold text-white mb-1 md:mb-2 text-center md:text-left">
+          <h1 className="text-[18px] md:text-[30px] font-bold text-white mb-1 md:mb-2 text-center md:text-left">
             {title}
           </h1>
-          <p className="text-white text-sm leading-relaxed text-center">
+          <p className="text-white text-xs sm:text-sm leading-relaxed text-center">
             {desc}
           </p>
         </div>
