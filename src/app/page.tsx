@@ -15,47 +15,47 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section id="home" className="group relative flex w-full max-w-[1440px] min-h-[560px] flex-col items-center justify-start overflow-hidden px-5 pt-4 pb-8 sm:min-h-[620px] sm:px-6 sm:pt-6 sm:pb-8 lg:block lg:min-h-0 lg:px-[52px] lg:pt-8 lg:pb-0 xl:px-[71px]">
+      <section id="home" className="group relative flex w-full max-w-[1440px] min-h-[560px] flex-col items-center justify-start overflow-hidden px-5 pt-4 pb-8 sm:min-h-[620px] sm:px-6 sm:pt-6 sm:pb-8 md:block md:min-h-0 md:overflow-visible md:px-8 md:pt-6 md:pb-0 lg:px-[52px] lg:pt-8 xl:px-[71px]">
         <span id="about" className="absolute bottom-0 left-0" aria-hidden="true" />
 
-        <div className="relative mx-auto hidden h-[640px] w-full max-w-[1298px] lg:block xl:h-[650px]">
+        <div className="relative mx-auto mt-4 hidden h-[560px] w-full max-w-[1298px] md:block lg:mt-6 lg:h-[640px] xl:h-[650px]">
           <Image
             src="/bottom-shape.webp"
             alt=""
             width={5542}
             height={1748}
-            className="absolute bottom-0 left-1/2 z-0 !h-[315px] w-[120vw] !max-w-none -translate-x-1/2 object-cover object-bottom xl:!h-[330px]"
+            className="absolute -bottom-4 left-1/2 z-0 !h-[285px] w-[100vw] !max-w-none -translate-x-1/2 object-fill object-bottom md:[mask-image:linear-gradient(to_bottom,#000_0%,#000_82%,transparent_100%)] lg:!h-[315px]"
             priority
             aria-hidden="true"
           />
 
           <div className="absolute left-0 top-[40px] z-30">
             <h1 className="font-semibold leading-[0.92] text-[#171717]">
-              <span className="block lg:text-[58px] xl:text-[62px]">Hey! I&apos;m</span>
-              <span className="block text-[#FD853A] lg:text-[88px] xl:text-[94px]">Hammad</span>
+              <span className="block text-[44px] lg:text-[58px] xl:text-[62px]">Hey! I&apos;m</span>
+              <span className="block text-[64px] text-[#FD853A] lg:text-[88px] xl:text-[94px]">Hammad</span>
             </h1>
 
-            <div className="mt-8 max-w-[340px]">
-              <p className="text-[16px] font-semibold leading-snug text-[#344054]">
+            <div className="mt-6 max-w-[270px] lg:mt-8 lg:max-w-[340px]">
+              <p className="text-[13px] font-semibold leading-snug text-[#344054] lg:text-[16px]">
                 I create premium logos, brand identities, social media designs, and marketing visuals that help businesses look trusted, professional, and impossible to ignore.
               </p>
             </div>
           </div>
 
-          <div className="absolute -right-7 top-[150px] z-30 w-[430px]">
-            <h2 className="font-semibold leading-[1.04] text-[#171717] lg:text-[52px] xl:text-[58px]">
+          <div className="absolute -right-3 top-[145px] z-30 w-[330px] lg:-right-7 lg:top-[150px] lg:w-[430px]">
+            <h2 className="font-semibold leading-[1.04] text-[#171717] text-[38px] lg:text-[52px] xl:text-[58px]">
               <span className="block">Professional</span>
               <span className="block whitespace-nowrap text-[#FD853A]">Graphic Designer</span>
             </h2>
           </div>
 
-          <div className="absolute right-[26px] top-[370px] z-40 flex flex-col items-center gap-2">
+          <div className="absolute right-[18px] top-[305px] z-40 flex flex-col items-center gap-1.5 lg:right-[54px] lg:top-[352px] xl:right-[74px] xl:top-[366px]">
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} size={30} fill="#FD853A" stroke="#FD853A" />
               ))}
             </div>
-            <h3 className="text-[30px] font-bold leading-none text-[#171717]">3+ Years</h3>
+            <h3 className="text-[30px] font-bold leading-none text-[#171717]">4+ Years</h3>
             <p className="text-sm text-[#171717]">Experience</p>
           </div>
 
@@ -64,18 +64,18 @@ export default function Home() {
             alt="Hammad graphic designer portrait"
             width={952}
             height={636}
-            className="absolute left-[52%] top-[-16px] z-20 w-[610px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] xl:left-[51.5%] xl:w-[640px]"
+            className="absolute left-[52%] top-[6px] z-20 w-[470px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] lg:top-[-16px] lg:w-[610px] xl:left-[51.5%] xl:w-[640px]"
             priority
           />
 
-          <div className="absolute left-1/2 top-[485px] z-50 w-full -translate-x-1/2 px-4">
+          <div className="absolute left-1/2 top-[418px] z-50 w-full -translate-x-1/2 px-4 lg:top-[485px]">
             <div className="mx-auto flex max-w-[390px] justify-center">
               <DualToggleButtons />
             </div>
           </div>
         </div>
 
-        <div className="relative w-full min-w-0 flex flex-col items-center justify-start lg:hidden">
+        <div className="relative w-full min-w-0 flex flex-col items-center justify-start md:hidden">
           <div className="relative w-full max-w-[760px] lg:max-w-[760px] xl:max-w-[800px] aspect-[1.28/1] sm:aspect-[3/2] flex flex-col items-center justify-center -mt-2 sm:-mt-6 lg:-mt-20 mx-auto px-2 sm:px-4">
             <div className="absolute bottom-0 z-0 w-[78%] max-w-[640px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto [mask-image:linear-gradient(to_bottom,#000_62%,transparent_100%)]">
               <div className="absolute w-full h-full bg-[#FEB273] rounded-t-full" />
@@ -92,7 +92,7 @@ export default function Home() {
 
             <div className="absolute bottom-[2%] z-10 hidden w-[78%] max-w-[640px] md:block transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100">
               <Image
-                src="/Frame 68.svg"
+                src="/Frame%2068.svg"
                 alt="Frame Decoration"
                 width={1017}
                 height={688}
@@ -239,7 +239,7 @@ export default function Home() {
           />
 
           <Image
-            src="/Property 1=Variant2.svg"
+            src="/Property%201%3DVariant2.svg"
             alt="Hire me"
             fill
             className="object-contain absolute -translate-y-[15px] transition-all duration-300 ease-in-out opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-110"

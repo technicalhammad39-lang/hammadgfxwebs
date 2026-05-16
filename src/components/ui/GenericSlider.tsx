@@ -37,6 +37,7 @@ export function GenericSlider<T extends AllowedCard>({
   const isReview = cardType === 'review';
   const isPortfolio = cardType === 'portfolio';
   const isBlog = cardType === 'blog';
+  const shouldLoop = data.length > slidesPerView * 2;
 
   useEffect(() => {
     setIsClient(true);
@@ -95,7 +96,7 @@ export function GenericSlider<T extends AllowedCard>({
           modules={[Pagination, Autoplay]}
           spaceBetween={20}
           centeredSlides={false}
-          loop={true}
+          loop={shouldLoop}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,

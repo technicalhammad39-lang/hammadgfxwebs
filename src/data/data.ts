@@ -103,7 +103,7 @@ export const skills: string[] = [
 
 export const blogs: Blog[] = [
   {
-    image: "/Rectangle 6.svg",
+    image: "/Rectangle%206.svg",
     button: "Read More",
     name: "Mahesh Pokale",
     date: "10 Nov, 2024",
@@ -117,7 +117,7 @@ export const blogs: Blog[] = [
     title: "Mastering Tailwind: Tips for Clean UI Development",
   },
   {
-    image: "/Rectangle 6 (1).svg",
+    image: "/Rectangle%206%20%281%29.svg",
     button: "Check Now",
     name: "John Doe",
     date: "1 Jan, 2025",
@@ -127,25 +127,25 @@ export const blogs: Blog[] = [
 
 export const portfolioData: PortfolioItem[] = [
   {
-    image: "/Frame 26.svg",
+    image: "/Frame%2026.svg",
     title: "Lirante 1",
     href: "/project-1",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.",
   },
   {
-    image: "/Frame 26.svg",
+    image: "/Frame%2026.svg",
     title: "Lirante 2",
     href: "/project-2",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.",
   },
   {
-    image: "/Frame 26.svg",
+    image: "/Frame%2026.svg",
     title: "Lirante 3",
     href: "/project-3",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.",
   },
   {
-    image: "/Frame 26.svg",
+    image: "/Frame%2026.svg",
     title: "Lirante 4",
     href: "/project-4",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.",
@@ -180,10 +180,10 @@ export const reviews: Review[] = [
 ];
 
 export const cardData: CardData[] = [
-  { title: "Logo Design", imageSrc: "/Rectangle 7.svg" },
-  { title: "Strategic Visuals", imageSrc: "/Rectangle 7.svg" },
-  { title: "Social Media", imageSrc: "/Rectangle 7.svg" },
-  { title: "Art Expert", imageSrc: "/Rectangle 7.svg" },
-  { title: "Print Designs", imageSrc: "/Rectangle 7.svg" },
-  { title: "Designer Studio", imageSrc: "/Rectangle 7.svg" },
+  { title: "Logo Design", imageSrc: "/Rectangle%207.svg" },
+  { title: "Strategic Visuals", imageSrc: "/Rectangle%207.svg" },
+  { title: "Social Media", imageSrc: "/Rectangle%207.svg" },
+  { title: "Art Expert", imageSrc: "/Rectangle%207.svg" },
+  { title: "Print Designs", imageSrc: "/Rectangle%207.svg" },
+  { title: "Designer Studio", imageSrc: "/Rectangle%207.svg" },
 ];
