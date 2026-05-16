@@ -2,12 +2,13 @@ import Navbar from "@/components/Navbar";
 import CustomeText from "@/components/ui/CustomeText";
 import DualToggleButtons from "@/components/ui/DualButtons";
 import Image from "next/image";
+import Link from "next/link";
+import { Fragment } from "react";
 import { Star } from "lucide-react";
-import OrangeButton from "@/components/ui/OrangeButton";
-import ArrowButton from "@/components/ui/ArrowButton";
 import { experiences, buttons, iconAndText, skills, blogs, portfolioData, cardData, reviews } from '../data/data';
 import { GenericSlider } from "@/components/ui/GenericSlider";
 import ClientOnly from "@/components/ui/ClientOnly";
+import Reveal from "@/components/ui/Reveal";
 
 export default function Home() {
   return (
@@ -16,47 +17,61 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home" className="group relative flex w-full max-w-[1440px] min-h-[560px] flex-col items-center justify-start overflow-hidden px-5 pt-4 pb-8 sm:min-h-[620px] sm:px-6 sm:pt-6 sm:pb-8 md:block md:min-h-0 md:overflow-visible md:px-8 md:pt-6 md:pb-0 lg:px-[52px] lg:pt-8 xl:px-[71px]">
-        <span id="about" className="absolute bottom-0 left-0" aria-hidden="true" />
-
         <div className="relative mx-auto mt-4 hidden h-[560px] w-full max-w-[1298px] md:block lg:mt-6 lg:h-[640px] xl:h-[650px]">
           <Image
             src="/bottom-shape.webp"
             alt=""
             width={5542}
             height={1748}
-            className="absolute -bottom-4 left-1/2 z-0 !h-[285px] w-[100vw] !max-w-none -translate-x-1/2 object-fill object-bottom md:[mask-image:linear-gradient(to_bottom,#000_0%,#000_82%,transparent_100%)] lg:!h-[315px]"
+            className="hero-bottom-shape absolute -bottom-7 left-1/2 z-0 !h-[335px] w-[150vw] !max-w-none -translate-x-1/2 object-fill object-bottom lg:!h-[365px] lg:w-[125vw] xl:w-[118vw]"
             priority
             aria-hidden="true"
           />
 
-          <div className="absolute left-0 top-[40px] z-30">
+          <div className="absolute left-0 top-[72px] z-30 lg:top-[52px] xl:top-[40px]">
             <h1 className="font-semibold leading-[0.92] text-[#171717]">
-              <span className="block text-[44px] lg:text-[58px] xl:text-[62px]">Hey! I&apos;m</span>
-              <span className="block text-[64px] text-[#FD853A] lg:text-[88px] xl:text-[94px]">Hammad</span>
+              <span className="block text-[40px] lg:text-[50px] xl:text-[62px]">Hey! I&apos;m</span>
+              <span className="block text-[56px] text-[#FD853A] lg:text-[76px] xl:text-[94px]">Hammad</span>
             </h1>
 
-            <div className="mt-6 max-w-[270px] lg:mt-8 lg:max-w-[340px]">
-              <p className="text-[13px] font-semibold leading-snug text-[#344054] lg:text-[16px]">
+            <div className="mt-6 max-w-[250px] lg:mt-7 lg:max-w-[300px] xl:mt-8 xl:max-w-[340px]">
+              <p className="text-[12px] font-semibold leading-snug text-[#344054] lg:text-[14px] xl:text-[16px]">
                 I create premium logos, brand identities, social media designs, and marketing visuals that help businesses look trusted, professional, and impossible to ignore.
               </p>
             </div>
           </div>
 
-          <div className="absolute -right-3 top-[145px] z-30 w-[330px] lg:-right-7 lg:top-[150px] lg:w-[430px]">
-            <h2 className="font-semibold leading-[1.04] text-[#171717] text-[38px] lg:text-[52px] xl:text-[58px]">
+          <div className="absolute right-0 top-[165px] z-30 w-[360px] origin-top-right scale-[0.76] rounded-[32px] bg-white/35 px-4 py-3 backdrop-blur-[8px] lg:right-0 lg:top-[140px] lg:w-[410px] lg:scale-[0.84] lg:bg-white/40 lg:backdrop-blur-[10px] xl:-right-7 xl:top-[125px] xl:w-[430px] xl:scale-100">
+            <h2 className="font-semibold leading-[1.04] text-[#171717] text-[34px] lg:text-[42px] xl:text-[58px]">
               <span className="block">Professional</span>
-              <span className="block whitespace-nowrap text-[#FD853A]">Graphic Designer</span>
+              <span className="hero-rotating-line">
+                <span>Graphic Designer</span>
+                <span>Brand Designer</span>
+                <span>Visual Designer</span>
+              </span>
             </h2>
-          </div>
 
-          <div className="absolute right-[18px] top-[305px] z-40 flex flex-col items-center gap-1.5 lg:right-[54px] lg:top-[352px] xl:right-[74px] xl:top-[366px]">
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={30} fill="#FD853A" stroke="#FD853A" />
-              ))}
+            <div className="mt-5 flex w-full max-w-[420px] items-center gap-4 rounded-[28px] bg-white/35 px-3 py-2 backdrop-blur-[6px] lg:max-w-[390px] xl:max-w-[420px]">
+              <div className="flex flex-col items-start gap-1">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={20} className="lg:h-6 lg:w-6" fill="#FD853A" stroke="#FD853A" />
+                  ))}
+                </div>
+                <h3 className="text-[21px] font-bold leading-none text-[#171717] lg:text-[24px]">4+ Years</h3>
+                <p className="text-[12px] font-medium text-[#171717] lg:text-[13px]">Experience</p>
+              </div>
+
+              <span className="h-12 w-px shrink-0 bg-[#FD853A]/40" aria-hidden="true" />
+
+              <div className="flex flex-col items-start gap-1">
+                <span className="text-[21px] font-bold leading-none text-[#171717] lg:text-[24px]">500+</span>
+                <p className="max-w-[110px] text-[12px] font-medium leading-tight text-[#171717] lg:text-[13px]">
+                  Projects Delivered
+                </p>
+                <p className="text-[12px] font-medium leading-none text-[#171717] lg:text-[13px]">Worldwide</p>
+              </div>
             </div>
-            <h3 className="text-[30px] font-bold leading-none text-[#171717]">4+ Years</h3>
-            <p className="text-sm text-[#171717]">Experience</p>
           </div>
 
           <Image
@@ -64,11 +79,11 @@ export default function Home() {
             alt="Hammad graphic designer portrait"
             width={952}
             height={636}
-            className="absolute left-[52%] top-[6px] z-20 w-[470px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] lg:top-[-16px] lg:w-[610px] xl:left-[51.5%] xl:w-[640px]"
+            className="hero-portrait-fade absolute left-[45%] top-[48px] z-20 w-[360px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] lg:left-[49.5%] lg:top-[10px] lg:w-[510px] xl:left-[51.5%] xl:top-[-16px] xl:w-[640px]"
             priority
           />
 
-          <div className="absolute left-1/2 top-[418px] z-50 w-full -translate-x-1/2 px-4 lg:top-[485px]">
+          <div className="absolute left-1/2 top-[420px] z-50 w-full -translate-x-1/2 px-4 lg:top-[485px]">
             <div className="mx-auto flex max-w-[390px] justify-center">
               <DualToggleButtons />
             </div>
@@ -107,7 +122,7 @@ export default function Home() {
               alt="Hammad graphic designer portrait"
               width={952}
               height={636}
-              className="relative z-20 w-[68%] max-w-[460px] sm:w-[62%] md:w-[56%] lg:w-[50%] xl:w-[48%] h-auto translate-y-8 object-contain mt-0"
+              className="hero-portrait-fade relative z-20 w-[68%] max-w-[460px] sm:w-[62%] md:w-[56%] lg:w-[50%] xl:w-[48%] h-auto translate-y-8 object-contain mt-0"
               priority
             />
 
@@ -119,7 +134,11 @@ export default function Home() {
           <div className="mt-2 flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
             <h1 className="flex w-full max-w-full flex-col items-center text-center font-semibold leading-[0.95] text-[clamp(38px,10.8vw,64px)] sm:text-[64px] md:text-[74px] xl:text-[88px] text-[#171717]">
               <span>Professional</span>
-              <span className="whitespace-nowrap">Visual Designer</span>
+              <span className="hero-rotating-line">
+                <span>Graphic Designer</span>
+                <span>Brand Designer</span>
+                <span>Visual Designer</span>
+              </span>
             </h1>
             <div className="mt-4 w-full flex flex-col gap-3 md:hidden">
               <a href="#projects" className="w-full rounded-full bg-[#FD853A] px-6 py-3.5 text-center text-base font-semibold text-white shadow-md transition-colors hover:bg-[#e4752f]">
@@ -134,7 +153,7 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="relative flex flex-col w-full min-h-0 gap-8 sm:gap-12 lg:gap-16 items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden">
+      <section id="services" className="relative flex flex-col w-full min-h-0 gap-8 sm:gap-10 lg:gap-12 items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-14 lg:py-[72px] bg-[#171717] rounded-[30px] sm:rounded-[50px] overflow-hidden">
         <Image
           src="/Frame 77.svg"
           alt="image"
@@ -142,16 +161,15 @@ export default function Home() {
           className="object-cover absolute opacity-50"
         />
 
-        <div className="w-full flex flex-col lg:flex-row items-start justify-between gap-6 relative z-10">
+        <Reveal className="w-full flex flex-col lg:flex-row items-start justify-between gap-6 relative z-10">
           <div className="flex gap-2.5">
             <CustomeText title="My" className="font-medium text-3xl sm:text-4xl lg:text-5xl text-[#FCFCFD]" />
             <CustomeText title="Services" className="font-medium text-3xl sm:text-4xl lg:text-5xl text-[#FD853A]" />
           </div>
           <p className="w-full lg:w-[578px] font-medium text-base sm:text-lg lg:text-[20px] text-white">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc,
-            posuere in justo vulputate, bibendum sodales
+            Premium design services for brands that need clean, trusted, and professional visuals.
           </p>
-        </div>
+        </Reveal>
 
         <div className="relative w-full max-w-[1299px] flex items-start justify-center">
           <GenericSlider
@@ -164,12 +182,12 @@ export default function Home() {
       </section>
 
       {/* Work Experience */}
-      <section className="w-full min-h-0 lg:min-h-[760px] flex flex-col items-start mx-auto px-5 sm:px-6 lg:px-[71px] py-10 lg:py-14">
-        <div className="w-full h-auto lg:h-[180px] flex flex-wrap lg:flex-row items-start justify-center gap-x-2.5 mb-8 lg:mb-12 text-center lg:text-left">
+      <section className="w-full min-h-0 flex flex-col items-start mx-auto px-5 sm:px-6 lg:px-[71px] py-10 lg:py-14">
+        <Reveal className="w-full h-auto flex flex-wrap lg:flex-row items-start justify-center gap-x-2.5 mb-6 lg:mb-6 text-center lg:text-left">
           <CustomeText title="My" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#344054]" />
           <CustomeText title="Work" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#FD853A]" />
           <CustomeText title="Experience" className="font-medium text-4xl sm:text-5xl lg:text-6xl text-[#FD853A]" />
-        </div>
+        </Reveal>
 
         <div className="w-full lg:hidden">
           {experiences.map((exp, index) => (
@@ -193,42 +211,91 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="w-full h-auto lg:h-[438px] hidden lg:flex justify-evenly">
-          <div className="flex flex-col justify-between w-[495px] h-[438px] gap-[102px]">
+        <Reveal className="hidden w-full justify-center lg:flex">
+          <div className="grid w-full max-w-[1210px] grid-cols-[minmax(300px,420px)_64px_minmax(440px,560px)] gap-x-8 gap-y-8">
             {experiences.map((exp, index) => (
-              <div key={index} className="flex flex-col gap-[14px]">
-                <CustomeText title={exp.company} className="font-semibold text-[#1D2939] text-[40px]" />
-                <CustomeText title={exp.duration} className="text-2xl text-[#98A2B3]" />
-              </div>
+              <Fragment key={exp.company}>
+                <div className="flex min-h-[132px] flex-col gap-3">
+                  <CustomeText title={exp.company} className="font-semibold text-[#1D2939] text-[30px] xl:text-[36px] leading-tight" />
+                  <CustomeText title={exp.duration} className="text-lg xl:text-xl text-[#98A2B3]" />
+                </div>
+
+                <div className="relative flex justify-center pt-1">
+                  {index < experiences.length - 1 && (
+                    <div className="absolute left-1/2 top-7 -bottom-11 w-[2px] -translate-x-1/2 border-l-2 border-dashed border-[#1D2939]" />
+                  )}
+                  <div className="relative flex h-12 w-12 items-center justify-center">
+                    <div className="absolute h-12 w-12 rounded-full border-2 border-dashed border-[#1D2939] bg-white" />
+                    <div className={`z-10 h-9 w-9 rounded-full ${exp.dotColor}`} />
+                  </div>
+                </div>
+
+                <div className="flex min-h-[132px] flex-col gap-3">
+                  <CustomeText title={exp.role} className="font-semibold text-[#1D2939] text-[30px] xl:text-[36px] leading-tight" />
+                  {exp.desc && (
+                    <CustomeText title={exp.desc} className="text-base xl:text-lg leading-relaxed text-[#98A2B3]" />
+                  )}
+                </div>
+              </Fragment>
             ))}
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Portfolio */}
+      <section id="projects" className="w-full flex flex-col items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12">
+        <Reveal className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
+          <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
+            <CustomeText
+              title="Lets Have a look at"
+              className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
+            />
+            <div className="flex items-start justify-start gap-4 flex-wrap">
+              <CustomeText
+                title="my"
+                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
+              />
+              <CustomeText
+                title="Portfolio"
+                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#FD853A]"
+              />
+            </div>
           </div>
 
-          <div className="relative flex flex-col items-center justify-between">
-            <div className="absolute top-0 bottom-0 w-[2px] border-l-2 border-dashed border-[#1D2939]" />
-            {experiences.map((exp, index) => (
-              <div key={index} className="relative flex items-center justify-center w-12 h-12">
-                <div className="absolute w-12 h-12 rounded-full border-2 border-dashed border-[#1D2939] bg-white" />
-                <div className={`w-9 h-9 rounded-full z-10 ${exp.dotColor}`} />
-              </div>
-            ))}
+          <Link href="/portfolio" className="flex h-[52px] w-[118px] shrink-0 items-center justify-center rounded-[60px] bg-[#FD853A] px-6 py-3 text-base font-bold text-white transition-all hover:bg-[#e46e24] sm:h-[60px] sm:w-[144px] sm:text-[18px]">
+            See All
+          </Link>
+        </Reveal>
+
+        <div className="w-full flex flex-col items-center gap-8 lg:gap-12 max-w-[1290px]">
+          <GenericSlider
+            data={portfolioData}
+            slidesPerView={2}
+            heightClass="h-auto"
+            cardType="portfolio"
+            sourceHash="projects"
+          />
+
+          <div className="w-full max-w-[947px] flex flex-wrap justify-center gap-4 sm:gap-[14px] items-center">
+            <ClientOnly>
+              {buttons.map((text, index) => (
+                <Link
+                  key={index}
+                  href={text === "All" ? "/portfolio" : `/portfolio?category=${encodeURIComponent(text)}`}
+                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 rounded-[24px] bg-[#F2F4F7] text-[#000000] text-sm sm:text-[18px] lg:text-[20px] hover:bg-[#FD853A] hover:text-white transition-colors duration-300"
+                >
+                  {text}
+                </Link>
+              ))}
+            </ClientOnly>
           </div>
 
-          <div className="flex flex-col justify-between w-[444px] h-[400px] gap-[48px]">
-            {experiences.map((exp, index) => (
-              <div key={index} className="flex flex-col gap-[14px]">
-                <CustomeText title={exp.role} className="font-semibold text-[#1D2939] text-[40px]" />
-                {exp.desc && (
-                  <CustomeText title={exp.desc} className="text-2xl text-[#98A2B3]" />
-                )}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Hire Me */}
-      <section className="w-full flex flex-col lg:flex-row items-center justify-between px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-8 lg:gap-[76px]">
-        <div className="relative w-full max-w-[360px] sm:max-w-[460px] lg:max-w-[500px] aspect-square group mx-auto lg:mx-0">
+      <section id="about" className="w-full flex flex-col lg:flex-row items-center justify-between px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[96px] bg-[#F2F4F7] rounded-[32px] lg:rounded-[50px] gap-8 lg:gap-[76px]">
+        <Reveal className="relative w-full max-w-[360px] sm:max-w-[460px] lg:max-w-[500px] aspect-square group mx-auto lg:mx-0">
           <Image
             src="/pic2.webp"
             alt="Hire me"
@@ -246,17 +313,17 @@ export default function Home() {
             sizes="(max-width: 768px) 90vw, 500px"
             priority
           />
-        </div>
+        </Reveal>
 
-        <div className="w-full max-w-xl flex flex-col items-start gap-6 sm:gap-8">
+        <Reveal className="w-full max-w-xl flex flex-col items-start gap-6 sm:gap-8" delay={0.08}>
           <div className="flex flex-wrap text-[36px] sm:text-5xl lg:text-6xl font-semibold gap-2 leading-tight">
             <CustomeText title="Why" className="text-[#344054]" />
-            <CustomeText title="Hire me" className="text-[#FD853A]" />
+            <CustomeText title="Hire Me" className="text-[#FD853A]" />
             <CustomeText title="?" className="text-[#344054]" />
           </div>
 
-          <p className="text-[#98A2B3] text-base sm:text-lg lg:text-xl leading-relaxed max-w-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus nunc, posuere in justo vulputate, bibendum sodales.
+          <p className="text-[#667085] text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl">
+            I create designs that help businesses look trusted, professional, and ready to sell. From brand identity and social media visuals to print-ready marketing designs, my focus is always on clean communication, strong first impressions, and consistent visual branding.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-8 w-full">
@@ -282,75 +349,15 @@ export default function Home() {
             </div>
           </div>
 
-          <ClientOnly>
-            <a href="#contact" className="w-full cursor-pointer sm:w-auto px-6 py-3.5 rounded-[20px] border border-[#151515] text-[#151515] font-semibold text-xl sm:text-[24px] transition-all duration-300 hover:bg-[#151515] hover:text-white text-center">
-              Hire me
+          <div className="flex w-full flex-col gap-3 sm:flex-row">
+            <a href="#contact" className="w-full cursor-pointer sm:w-auto px-6 py-3.5 rounded-[20px] border border-[#151515] bg-[#151515] text-white font-semibold text-xl sm:text-[22px] transition-all duration-300 hover:bg-[#FD853A] hover:border-[#FD853A] text-center">
+              Hire Me
             </a>
-          </ClientOnly>
-        </div>
-      </section>
-
-      {/* Portfolio */}
-      <section id="projects" className="w-full flex flex-col items-center px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12">
-        <div className="w-full flex flex-col sm:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="flex flex-col items-start max-w-full lg:max-w-[643px]">
-            <CustomeText
-              title="Lets Have a look at"
-              className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
-            />
-            <div className="flex items-start justify-start gap-4 flex-wrap">
-              <CustomeText
-                title="my"
-                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#344054]"
-              />
-              <CustomeText
-                title="Portfolio"
-                className="font-semibold text-[32px] sm:text-[44px] lg:text-[64px] leading-tight text-[#FD853A]"
-              />
-            </div>
+            <a href="/HammadGfx-CV.pdf" download className="w-full cursor-pointer sm:w-auto px-6 py-3.5 rounded-[20px] border border-[#151515] text-[#151515] font-semibold text-xl sm:text-[22px] transition-all duration-300 hover:bg-[#151515] hover:text-white text-center">
+              Open CV
+            </a>
           </div>
-
-          <div className="shrink-0">
-            <OrangeButton title="See All" className="w-[118px] h-[52px] px-6 py-3 text-base sm:w-[144px] sm:h-[60px] sm:text-[18px]" />
-          </div>
-        </div>
-
-        <div className="w-full flex flex-col items-center gap-8 lg:gap-12 max-w-[1290px]">
-          <GenericSlider
-            data={portfolioData}
-            slidesPerView={2}
-            heightClass="h-auto"
-            cardType="portfolio"
-          />
-
-          <div className="w-full max-w-[947px] flex flex-wrap justify-center gap-4 sm:gap-[14px] items-center">
-            <ClientOnly>
-              {buttons.map((text, index) => (
-                <button
-                  key={index}
-                  className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 rounded-[24px] bg-[#F2F4F7] text-[#000000] text-sm sm:text-[18px] lg:text-[20px] hover:bg-[#FD853A] hover:text-white transition-colors duration-300"
-                >
-                  {text}
-                </button>
-              ))}
-            </ClientOnly>
-          </div>
-
-          <div className="flex flex-col w-full max-w-[742px] items-start gap-6 px-4 sm:px-0">
-            <div className="flex flex-col sm:flex-row w-full items-start sm:items-center gap-4 sm:gap-[18px]">
-              <CustomeText
-                title="Lirante - Food Delivery Solution"
-                className="font-bold text-[28px] sm:text-[32px] lg:text-[40px] text-[#344054]"
-              />
-              <div className="w-[50px] h-[50px] sm:w-[58px] sm:h-[58px] rounded-full bg-[#FD853A] hidden md:flex items-center justify-center transition-all duration-300">
-                <ArrowButton className="transition-all duration-300 stroke-white -rotate-45" />
-              </div>
-            </div>
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[#344054] text-center sm:text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lobortis orci elementum egestas lobortis.
-            </p>
-          </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Testimonials */}
@@ -362,17 +369,13 @@ export default function Home() {
           className="object-cover absolute opacity-50"
         />
 
-        <div className="flex flex-col w-full max-w-[1299px] items-center gap-4 z-10 px-2">
-          <div className="flex flex-col items-center max-w-full sm:max-w-[448px]">
+        <Reveal className="flex flex-col w-full max-w-[1299px] items-center gap-4 z-10 px-2">
+          <div className="flex flex-col items-center max-w-full lg:max-w-[900px]">
             <CustomeText
-              title="Testimonials That"
-              className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#FCFCFD] text-center"
+              title="Testimonials That Speak to"
+              className="font-medium text-[clamp(22px,6.5vw,48px)] text-[#FCFCFD] text-center whitespace-nowrap"
             />
             <div className="flex flex-wrap gap-2.5 justify-center">
-              <CustomeText
-                title="Speak to"
-                className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#FCFCFD]"
-              />
               <CustomeText
                 title="My Result"
                 className="font-medium text-[28px] sm:text-[36px] lg:text-[48px] text-[#FD853A]"
@@ -380,9 +383,9 @@ export default function Home() {
             </div>
           </div>
           <p className="w-full max-w-[742px] text-[16px] sm:text-[18px] lg:text-[20px] text-[#F9FAFB] text-center leading-[1.6] px-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim.
+            Real feedback from clients who needed professional brand visuals, social media designs, and print-ready marketing materials.
           </p>
-        </div>
+        </Reveal>
 
         <div className="relative w-full z-10">
           <GenericSlider
@@ -397,7 +400,7 @@ export default function Home() {
 
       {/* Contact */}
       <section id="contact" className="w-full bg-white flex flex-col items-center justify-center py-12 sm:py-16 px-5 sm:px-6 lg:px-[71px] gap-8 sm:gap-10">
-        <div className="w-full max-w-4xl text-center flex flex-col items-center gap-3 sm:gap-4">
+        <Reveal className="w-full max-w-4xl text-center flex flex-col items-center gap-3 sm:gap-4">
           <CustomeText
             title="Have an Awesome Project"
             className="font-semibold text-[32px] sm:text-4xl md:text-5xl lg:text-[64px] leading-tight text-[#344054]"
@@ -412,7 +415,7 @@ export default function Home() {
               className="font-semibold text-[32px] sm:text-4xl md:text-5xl lg:text-[64px] leading-tight text-[#FD853A]"
             />
           </div>
-        </div>
+        </Reveal>
 
         <div className="w-full max-w-3xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-3 py-3 md:px-6 md:py-4 rounded-[28px] sm:rounded-full border border-[#E4E7EC] bg-white">
           <div className="w-9 h-9 md:w-[50px] md:h-[50px] flex items-center justify-center rounded-full bg-[#FFEAD5] shrink-0">
@@ -501,16 +504,19 @@ export default function Home() {
       </div>
 
       {/* Blog */}
-      <section className="flex flex-col w-full h-fit items-center gap-8 sm:gap-12 px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[90px] overflow-hidden">
-        <div className="w-full max-w-[1298px] h-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-0">
-          <h1 className="text-[#344054] w-full lg:w-fit md:min-w-[215px] h-auto font-bold text-[32px] sm:text-4xl md:text-5xl leading-tight">From my blog post</h1>
-          <OrangeButton title="See All" className="w-[118px] h-[52px] px-6 py-3 text-base sm:w-[144px] sm:h-[60px] sm:text-[18px]" />
-        </div>
+      <section id="blog" className="flex flex-col w-full h-fit items-center gap-8 sm:gap-12 px-5 sm:px-6 lg:px-[71px] py-12 sm:py-16 lg:py-[90px] overflow-hidden">
+        <Reveal className="w-full max-w-[1298px] h-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-0">
+          <h1 className="text-[#344054] w-full lg:w-fit md:min-w-[215px] h-auto font-bold text-[32px] sm:text-4xl md:text-5xl leading-tight">Design Insights From Hammad GFX</h1>
+          <Link href="/blog" className="inline-flex w-[118px] h-[52px] items-center justify-center rounded-[60px] bg-[#FD853A] px-6 py-3 text-base font-bold text-white transition-all hover:bg-[#e46e24] sm:w-[144px] sm:h-[60px] sm:text-[18px]">
+            See All
+          </Link>
+        </Reveal>
         <GenericSlider
           data={blogs}
           slidesPerView={3}
           heightClass=""
           cardType="blog"
+          sourceHash="blog"
         />
       </section>
 

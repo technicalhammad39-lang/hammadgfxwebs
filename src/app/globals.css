@@ -24,8 +24,66 @@ section {
   scroll-margin-top: 110px;
 }
 
+.hero-bottom-shape {
+  filter: saturate(1.03);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.72) 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.72) 86%, transparent 100%);
+}
+
+.hero-portrait-fade {
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.08));
+  mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0, 0, 0, 0.82) 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 76%, rgba(0, 0, 0, 0.82) 86%, transparent 100%);
+}
+
+.hero-rotating-line {
+  position: relative;
+  display: block;
+  height: 1.08em;
+  width: 100%;
+  overflow: hidden;
+  color: #FD853A;
+  white-space: nowrap;
+}
+
+.hero-rotating-line > span {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: translateY(100%);
+  opacity: 0;
+  animation: hero-word-rotate 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.hero-rotating-line > span:nth-child(2) {
+  animation-delay: 3s;
+}
+
+.hero-rotating-line > span:nth-child(3) {
+  animation-delay: 6s;
+}
+
+@keyframes hero-word-rotate {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  8%,
+  29% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  38%,
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
 .marquee {
-    animation: scroll-left 10s linear infinite;
+    animation: scroll-left 30s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -86,6 +144,10 @@ section {
     scroll-margin-top: 90px;
   }
 
+  .hero-rotating-line {
+    text-align: center;
+  }
+
   .swiper-pagination-bullet {
     width: 10px !important;
     height: 10px !important;
@@ -94,5 +156,17 @@ section {
   .swiper-pagination-bullet-active {
     width: 42px !important;
     height: 10px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotating-line > span,
+  .marquee {
+    animation: none !important;
+  }
+
+  .hero-rotating-line > span:first-child {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

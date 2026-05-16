@@ -2,6 +2,7 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
+import { motion } from 'framer-motion';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useEffect, useState } from 'react';
@@ -25,6 +26,7 @@ interface GenericSliderProps<T extends AllowedCard> {
   slidesPerView: number;
   heightClass?: string;
   cardType: 'hover' | 'portfolio' | 'review' | 'blog';
+  sourceHash?: string;
 }
 
 export function GenericSlider<T extends AllowedCard>({
@@ -32,12 +34,13 @@ export function GenericSlider<T extends AllowedCard>({
   slidesPerView,
   heightClass,
   cardType,
+  sourceHash,
 }: GenericSliderProps<T>) {
   const [isClient, setIsClient] = useState(false);
   const isReview = cardType === 'review';
   const isPortfolio = cardType === 'portfolio';
   const isBlog = cardType === 'blog';
-  const shouldLoop = data.length > slidesPerView * 2;
+  const shouldLoop = isReview ? data.length > 1 : data.length > slidesPerView * 2;
 
   useEffect(() => {
     setIsClient(true);
@@ -51,8 +54,8 @@ export function GenericSlider<T extends AllowedCard>({
           <div className="flex gap-4 overflow-hidden">
             {data.slice(0, 3).map((item, index) => (
               <div key={index} className="flex-shrink-0 w-full max-w-[calc(100vw-40px)] sm:max-w-sm">
-                {cardType === 'hover' && 'title' in item && 'imageSrc' in item && (
-                  <ServicesCard title={item.title} imageSrc={item.imageSrc} priority={index === 0} />
+                {cardType === 'hover' && 'title' in item && 'imageSrc' in item && 'desc' in item && 'icon' in item && (
+                  <ServicesCard title={item.title} imageSrc={item.imageSrc} desc={item.desc} icon={item.icon} priority={index === 0} />
                 )}
                 {cardType === 'portfolio' && 'image' in item && 'href' in item && 'desc' in item && (
                   <PortfolioCard
@@ -60,6 +63,8 @@ export function GenericSlider<T extends AllowedCard>({
                     title={item.title}
                     href={item.href}
                     desc={item.desc}
+                    category={'category' in item ? item.category : undefined}
+                    sourceHash={sourceHash}
                     priority={index === 0}
                   />
                 )}
@@ -78,6 +83,12 @@ export function GenericSlider<T extends AllowedCard>({
                     name={item.name}
                     date={item.date}
                     title={item.title}
+                    slug={item.slug}
+                    excerpt={item.excerpt}
+                    category={item.category}
+                    metaDescription={item.metaDescription}
+                    content={item.content}
+                    sourceHash={sourceHash}
                     priority={index === 0}
                   />
                 )}
@@ -116,11 +127,11 @@ export function GenericSlider<T extends AllowedCard>({
               spaceBetween: 20,
             },
             1024: {
-              slidesPerView: isPortfolio ? 2 : Math.min(slidesPerView, 3),
+              slidesPerView: isPortfolio ? 2 : isReview ? 2 : Math.min(slidesPerView, 3),
               spaceBetween: 24,
             },
             1280: {
-              slidesPerView: isPortfolio ? 2 : slidesPerView,
+              slidesPerView: isPortfolio ? 2 : isReview ? 2 : slidesPerView,
               spaceBetween: 24,
             },
           }}
@@ -131,36 +142,52 @@ export function GenericSlider<T extends AllowedCard>({
               key={index}
               className="!flex !justify-center"
             >
-              {cardType === 'hover' && 'title' in item && 'imageSrc' in item && (
-                <ServicesCard title={item.title} imageSrc={item.imageSrc} priority={index === 0} />
-              )}
-              {cardType === 'portfolio' && 'image' in item && 'href' in item && 'desc' in item && (
-                <PortfolioCard
-                  image={item.image}
-                  title={item.title}
-                  href={item.href}
-                  desc={item.desc}
-                  priority={index === 0}
-                />
-              )}
-              {cardType === 'review' && 'rating' in item && (
-                <ReviewCard
-                  name={item.name}
-                  role={item.role}
-                  rating={item.rating}
-                  text={item.text}
-                />
-              )}
-              {cardType === 'blog' && 'image' in item && 'button' in item && 'name' in item && 'date' in item && (
-                <Blog
-                  image={item.image}
-                  button={item.button}
-                  name={item.name}
-                  date={item.date}
-                  title={item.title}
-                  priority={index === 0}
-                />
-              )}
+              <motion.div
+                className="flex w-full justify-center"
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.55, delay: Math.min(index, 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {cardType === 'hover' && 'title' in item && 'imageSrc' in item && 'desc' in item && 'icon' in item && (
+                  <ServicesCard title={item.title} imageSrc={item.imageSrc} desc={item.desc} icon={item.icon} priority={index === 0} />
+                )}
+                {cardType === 'portfolio' && 'image' in item && 'href' in item && 'desc' in item && (
+                  <PortfolioCard
+                    image={item.image}
+                    title={item.title}
+                    href={item.href}
+                    desc={item.desc}
+                    category={'category' in item ? item.category : undefined}
+                    sourceHash={sourceHash}
+                    priority={index === 0}
+                  />
+                )}
+                {cardType === 'review' && 'rating' in item && (
+                  <ReviewCard
+                    name={item.name}
+                    role={item.role}
+                    rating={item.rating}
+                    text={item.text}
+                  />
+                )}
+                {cardType === 'blog' && 'image' in item && 'button' in item && 'name' in item && 'date' in item && (
+                  <Blog
+                    image={item.image}
+                    button={item.button}
+                    name={item.name}
+                    date={item.date}
+                    title={item.title}
+                    slug={item.slug}
+                    excerpt={item.excerpt}
+                    category={item.category}
+                    metaDescription={item.metaDescription}
+                    content={item.content}
+                    sourceHash={sourceHash}
+                    priority={index === 0}
+                  />
+                )}
+              </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -5,12 +5,12 @@ import Image from 'next/image'
 
 const Navbar = () => {
     const menuItems = [
-        { label: "Home", href: "#home" },
-        { label: "About", href: "#about" },
-        { label: "Service", href: "#services" },
+        { label: "Home", href: "/#home" },
+        { label: "About", href: "/#about" },
+        { label: "Service", href: "/#services" },
         { label: "Resume", href: "/HammadGfx-CV.pdf", download: true },
-        { label: "Project", href: "#projects" },
-        { label: "Contact", href: "#contact" },
+        { label: "Project", href: "/#projects" },
+        { label: "Contact", href: "/#contact" },
     ];
     const [selected, setSelected] = useState("Home");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -97,13 +97,14 @@ const Navbar = () => {
             </div>
 
             {/* Logo */}
-            <a href="#home" onClick={() => handleMenuClick("Home")} className="flex items-center justify-center flex-shrink-0 cursor-pointer">
+            <a href="/#home" onClick={() => handleMenuClick("Home")} className="flex items-center justify-center flex-shrink-0 cursor-pointer">
                 <Image
                     src="/logo.webp"
                     alt="Hammad GFX logo"
                     width={96}
                     height={75}
-                    className="h-9 w-auto object-contain sm:h-10 lg:h-11"
+                    className="h-auto w-12 object-contain sm:w-14 lg:w-16"
+                    style={{ height: 'auto' }}
                     priority
                 />
             </a>

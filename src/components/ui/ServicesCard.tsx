@@ -1,33 +1,46 @@
-import Image from 'next/image';
+import { FileText, Monitor, Palette, PenTool, Printer, Share2 } from 'lucide-react';
+
+const serviceIcons = {
+  Palette,
+  Share2,
+  PenTool,
+  Printer,
+  Monitor,
+  FileText,
+};
 
 interface HoverCardProps {
   title: string;
   imageSrc: string;
+  desc: string;
+  icon: keyof typeof serviceIcons;
   priority?: boolean;
 }
 
-export default function ServicesCard({ title, imageSrc, priority = false }: HoverCardProps) {
+export default function ServicesCard({ title, desc, icon }: HoverCardProps) {
+  const Icon = serviceIcons[icon];
+
   return (
-    <div className="relative flex flex-col items-center justify-end w-full max-w-[360px] lg:max-w-[416px] h-[390px] sm:h-[450px] lg:h-[508px] rounded-[30px] sm:rounded-[37px] lg:rounded-[40px] bg-white/10 backdrop-blur-[15px] border border-white/50 hover:bg-[#FD853A] transition-colors duration-300 ease-in-out overflow-hidden cursor-pointer group">
-      
-      {/* Title (absolute top) */}
-      <h1 className="absolute top-4 w-full h-[40px] sm:h-[45px] md:h-[50px] lg:h-[65px] flex items-start font-medium text-[20px] md:text-[24px] lg:text-[32px] text-white z-30 border-b-2 border-[#F9FAFB]/30">
-        <span className="relative lg:top-2 left-5 sm:left-6">{title}</span>
-      </h1>
+    <div className="group relative flex w-full max-w-[360px] lg:max-w-[416px] min-h-[250px] sm:min-h-[270px] lg:min-h-[286px] flex-col justify-between overflow-hidden rounded-[30px] sm:rounded-[37px] lg:rounded-[40px] border border-white/35 bg-white/10 p-5 sm:p-6 backdrop-blur-[15px] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-[#FD853A]">
+      <div className="absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[#FD853A]/20 blur-2xl transition-colors duration-300 group-hover:bg-white/20" aria-hidden="true" />
+      <div className="absolute -bottom-16 left-8 h-40 w-40 rounded-full bg-white/10 blur-3xl" aria-hidden="true" />
+      <div className="absolute bottom-0 right-0 h-24 w-24 rounded-tl-[70px] bg-white/5" aria-hidden="true" />
 
-      {/* Decorative Backgrounds */}
-      <div className="absolute w-[80%] lg:w-[310px] h-[270px] sm:h-[330px] lg:h-[329px] rounded-[25px] lg:rounded-[35px] bg-[#757575] opacity-50 mb-3 md:mb-4 lg:mb-5"></div>
-      <div className="absolute w-[90%] lg:w-[364px] h-[260px] sm:h-[320px] lg:h-[329px] rounded-[25px] lg:rounded-[35px] bg-[#9E9D9D]"></div>
+      <div className="relative z-10 flex items-start justify-between gap-4 border-b border-white/25 pb-5">
+        <h1 className="max-w-[260px] text-[24px] font-semibold leading-tight text-white sm:text-[28px] lg:text-[30px]">
+          {title}
+        </h1>
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FD853A] text-white transition-colors duration-300 group-hover:bg-white group-hover:text-[#FD853A]">
+          <Icon size={24} />
+        </div>
+      </div>
 
-      {/* Image */}
-      <Image
-        src={imageSrc}
-        alt="Card Image"
-        width={416}
-        height={307}
-        className="object-cover z-20 w-full h-[260px] sm:h-[300px] md:max-h-[360px] lg:max-h-[416px] rounded-[28px] sm:rounded-[35px]"
-        priority={priority}
-      />
+      <div className="relative z-10 mt-6 flex flex-col gap-5">
+        <p className="text-[15px] font-medium leading-snug text-white/85 sm:text-base">
+          {desc}
+        </p>
+        <span className="h-2 w-20 rounded-full bg-[#FD853A] transition-colors duration-300 group-hover:bg-white" />
+      </div>
     </div>
   );
 }

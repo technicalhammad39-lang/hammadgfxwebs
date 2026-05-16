@@ -1,40 +1,46 @@
-import Image from 'next/image';
+"use client";
+
 import React from 'react';
 import ArrowButton from './ArrowButton';
 import { Blog as BlogType } from '../../data/data'; 
-import ClientOnly from './ClientOnly';
+import Link from 'next/link';
 
 interface BlogProps extends BlogType {
   priority?: boolean;
+  sourceHash?: string;
 }
 
-const Blog: React.FC<BlogProps> = ({ image, button, name, date, title, priority = false }) => {
+const Blog: React.FC<BlogProps> = ({ button, name, date, title, slug, excerpt, category, sourceHash }) => {
+  const detailHref = sourceHash ? `/blog/${slug}?from=${encodeURIComponent(sourceHash)}` : `/blog/${slug}`;
+
+  const preserveSectionBeforeNavigation = () => {
+    if (sourceHash && window.location.pathname === "/") {
+      window.history.replaceState(null, "", `/#${sourceHash}`);
+    }
+  };
+
   return (
-    <div className="flex flex-col w-full max-w-[416px] h-auto items-start gap-5 sm:gap-[28px]">
-      <div className="relative w-full h-[220px] sm:h-[330px] lg:h-[432px] gap-[10px] items-start group overflow-hidden rounded-[18px] bg-[#F2F4F7]">
-        <Image
-          src={image}
-          alt="image"
-          width={416}
-          height={432}
-          className="w-full h-full object-cover cursor-pointer rounded-[18px]"
-          priority={priority}
-        />
-        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-14 h-14 sm:w-20 sm:h-20 lg:w-[96px] lg:h-[96px] rounded-full bg-[#1D2939] group-hover:bg-[#FD853A] flex items-center justify-center transition-all duration-300">
+    <Link href={detailHref} onClick={preserveSectionBeforeNavigation} className="flex w-full max-w-[416px] flex-col items-start gap-5 sm:gap-[24px]">
+      <div className="relative h-[220px] w-full overflow-hidden rounded-[18px] bg-[#171717] sm:h-[330px] lg:h-[360px] group">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FD853A]/80 via-[#171717] to-[#171717]" />
+        <div className="absolute -right-14 -top-14 h-40 w-40 rounded-full bg-white/20 blur-2xl" />
+        <div className="absolute bottom-6 left-6 right-20">
+          <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white">{category}</span>
+          <p className="mt-4 text-3xl font-semibold leading-none text-white">Design Insight</p>
+        </div>
+        <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#1D2939] transition-all duration-300 group-hover:bg-[#FD853A] sm:h-16 sm:w-16 lg:h-20 lg:w-20">
           <ArrowButton
             className="transition-all duration-300 stroke-white -rotate-45"
-            height={56}
-            width={56}
+            height={48}
+            width={48}
           />
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 sm:gap-[28px] items-start w-full">
-        <ClientOnly>
-          <button className="w-auto min-w-[150px] h-[46px] sm:h-[54px] rounded-3xl flex items-center justify-center px-6 sm:px-[32px] py-3 sm:py-[15px] bg-[#F2F4F7] text-[#000000] text-base sm:text-[20px]">
-            {button}
-          </button>
-        </ClientOnly>
+      <div className="flex w-full flex-col items-start gap-4 sm:gap-5">
+        <span className="flex h-[42px] w-auto min-w-[132px] items-center justify-center rounded-3xl bg-[#F2F4F7] px-5 py-2.5 text-base text-[#000000] transition-colors duration-300 hover:bg-[#FD853A] hover:text-white sm:text-[18px]">
+          {button}
+        </span>
 
         <div className="flex flex-wrap items-start gap-3 sm:gap-[24px]">
           <div className="flex items-center gap-2.5">
@@ -47,11 +53,12 @@ const Blog: React.FC<BlogProps> = ({ image, button, name, date, title, priority 
           </div>
         </div>
 
-        <h3 className="w-full h-auto text-[24px] sm:text-[28px] lg:text-[32px] leading-tight text-[#344054]">
+        <h3 className="w-full h-auto text-[24px] sm:text-[28px] lg:text-[31px] leading-tight text-[#344054]">
           {title ?? 'Design Unraveled: Behind the Scenes of UI/UX Magic'}
         </h3>
+        <p className="text-sm leading-relaxed text-[#667085] sm:text-base">{excerpt}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

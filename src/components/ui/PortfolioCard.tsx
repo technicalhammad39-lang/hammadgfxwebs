@@ -1,88 +1,81 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import ArrowButton from './ArrowButton';
 import { PortfolioItem } from '@/data/data';
 
-interface PortfolioCardProps extends PortfolioItem {
+interface PortfolioCardProps extends Pick<PortfolioItem, 'image' | 'title' | 'href' | 'desc'> {
+  category?: string;
   priority?: boolean;
+  sourceHash?: string;
 }
 
-const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc, priority = false }) => {
+const PortfolioCard: React.FC<PortfolioCardProps> = ({ image, title, href, desc, category, priority = false, sourceHash }) => {
+  const detailHref = sourceHash ? `${href}?from=${encodeURIComponent(sourceHash)}` : href;
+
+  const preserveSectionBeforeNavigation = () => {
+    if (sourceHash && window.location.pathname === "/") {
+      window.history.replaceState(null, "", `/#${sourceHash}`);
+    }
+  };
+
   return (
-    <div
+    <Link
+      href={detailHref}
+      onClick={preserveSectionBeforeNavigation}
       className="relative group 
         w-full 
         max-w-[633px] h-[230px] sm:h-[300px] md:h-[371px]
         md:max-w-none 
         rounded-[16px] md:rounded-[20px] 
-        overflow-hidden transition-all duration-300 cursor-pointer 
-        shadow-md"
+        overflow-hidden transition-all duration-300 cursor-pointer bg-[#171717]
+        shadow-md block"
       style={{
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       }}
     >
-      {/* Gradient Overlay */}
-      <div
-        className="absolute inset-0 z-10"
-        style={{
-          background:
-            'linear-gradient(225deg, rgba(0, 0, 0, 0) 44%, rgba(0, 0, 0, 0.72) 83%, rgba(0, 0, 0, 1) 100%)',
-          opacity: 0.4,
-        }}
-      />
-
-      {/* Background Image */}
       <Image
         src={image}
         alt={title}
         fill
-        className="object-cover z-0"
-        sizes="(max-width: 768px) 92vw, (max-width: 1280px) 50vw, 633px"
         priority={priority}
+        sizes="(max-width: 768px) calc(100vw - 40px), (max-width: 1280px) 50vw, 633px"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
       />
 
-      {/* Content */}
-      <div className="relative z-20 w-full h-full flex flex-col justify-between">
-        {/* Top-right Button */}
-        <div className="flex justify-end p-2 md:p-4">
-          <Link href={href}>
-            <div className="w-[40px] h-[40px] md:w-[60px] md:h-[60px] 
-              rounded-full border-2 border-[#FD853A] 
-              group-hover:bg-[#FD853A] 
-              flex items-center justify-center 
-              transition-all duration-300"
-            >
-              <ArrowButton className="transition-all duration-300 stroke-[#FD853A] group-hover:stroke-white" />
-            </div>
-          </Link>
-        </div>
+      <div className="absolute inset-0 z-10 bg-black/0 transition-colors duration-500 ease-out md:group-hover:bg-black/55 md:group-focus-visible:bg-black/55" />
+      <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-black/40 to-transparent opacity-80 md:opacity-0 md:transition-opacity md:duration-500 md:group-hover:opacity-100" />
 
-        {/* Title */}
-        <h1 className="px-3 pb-2 md:px-4 md:pb-4 font-bold 
-          text-[24px] sm:text-[34px] md:text-[52px] lg:text-[64px]
-          text-[#FFFAF5] leading-[1]"
-        >
-          {title}
-        </h1>
+      <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2 rounded-full bg-[#FD853A] px-4 py-2 text-sm font-semibold text-white shadow-lg md:hidden">
+        View Project
+        <ArrowButton className="stroke-white -rotate-45" height={24} width={24} />
+      </div>
 
-        {/* Hover Description */}
-        <div className="absolute bottom-0 left-0 right-0 
-          w-[92%] mx-auto mb-3 md:mb-4 
-          bg-black/40 backdrop-blur-md 
-          rounded-[16px] md:rounded-[20px] 
-          px-4 md:px-6 py-3 md:py-4 
-          opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 
-          transition-all duration-500 ease-in-out z-30"
-        >
-          <h1 className="text-[18px] md:text-[30px] font-bold text-white mb-1 md:mb-2 text-center md:text-left">
-            {title}
-          </h1>
-          <p className="text-white text-xs sm:text-sm leading-relaxed text-center">
-            {desc}
+      <div className="absolute inset-x-4 bottom-4 z-20 hidden translate-y-4 rounded-[18px] border border-white/20 bg-black/45 px-5 py-4 opacity-0 backdrop-blur-md transition-all duration-500 ease-out md:block md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-visible:translate-y-0 md:group-focus-visible:opacity-100">
+        {category && (
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FD853A]">
+            {category}
           </p>
+        )}
+        <div className="mt-2 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="text-[24px] font-bold leading-tight text-white lg:text-[30px]">
+              {title}
+            </h3>
+            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/85">
+              {desc}
+            </p>
+            <span className="mt-3 inline-flex text-sm font-semibold text-white">
+              View Project
+            </span>
+          </div>
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FD853A]">
+            <ArrowButton className="stroke-white -rotate-45" height={40} width={40} />
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
