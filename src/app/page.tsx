@@ -15,39 +15,79 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section id="home" className="group relative flex flex-col w-full max-w-[1440px] min-h-[560px] sm:min-h-[620px] lg:min-h-[660px] px-5 sm:px-6 lg:px-[52px] xl:px-[71px] gap-4 sm:gap-6 items-center justify-center pt-4 sm:pt-6 lg:pt-8 pb-0 sm:pb-4">
-        <div className="hidden lg:flex lg:absolute lg:left-[52px] xl:left-[71px] lg:top-[300px] xl:top-[320px] flex-col w-[300px] xl:w-[328px] min-h-[138px] items-start justify-start transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
-          <div className="text-[#344054] text-[36px] leading-none">&quot;</div>
-          <p className="text-[#344054] text-[16px] font-medium leading-snug">
-            I create premium logos, brand identities, social media designs, and marketing visuals that help businesses look trusted, professional, and impossible to ignore.
-          </p>
-        </div>
+      <section id="home" className="group relative flex w-full max-w-[1440px] min-h-[560px] flex-col items-center justify-start overflow-hidden px-5 pt-4 pb-8 sm:min-h-[620px] sm:px-6 sm:pt-6 sm:pb-8 lg:block lg:min-h-0 lg:px-[52px] lg:pt-8 lg:pb-0 xl:px-[71px]">
+        <span id="about" className="absolute bottom-0 left-0" aria-hidden="true" />
 
-        <div className="relative w-full min-w-0 flex flex-col items-center justify-center">
-          <div className="flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
-            <span className="h-[42px] px-[24px] py-[10px] rounded-full border border-[#171717] flex items-center justify-center bg-white mt-1 sm:mt-2 text-[#171717] text-sm sm:text-base">
-              Hello!
-            </span>
-            <h1 className="mt-4 sm:mt-5 flex w-full max-w-full flex-col items-center text-center font-semibold leading-[0.95] text-[clamp(38px,10.8vw,64px)] sm:text-[64px] md:text-[74px] xl:text-[88px] text-[#171717]">
-              <span>
-                I&apos;m <span className="text-[#FD853A]">Hammad</span>,
-              </span>
-              <span>Professional Visual</span>
-              <span>Designer</span>
+        <div className="relative mx-auto hidden h-[640px] w-full max-w-[1298px] lg:block xl:h-[650px]">
+          <Image
+            src="/bottom-shape.webp"
+            alt=""
+            width={5542}
+            height={1748}
+            className="absolute bottom-0 left-1/2 z-0 !h-[315px] w-[120vw] !max-w-none -translate-x-1/2 object-cover object-bottom xl:!h-[330px]"
+            priority
+            aria-hidden="true"
+          />
+
+          <div className="absolute left-0 top-[40px] z-30">
+            <h1 className="font-semibold leading-[0.92] text-[#171717]">
+              <span className="block lg:text-[58px] xl:text-[62px]">Hey! I&apos;m</span>
+              <span className="block text-[#FD853A] lg:text-[88px] xl:text-[94px]">Hammad</span>
             </h1>
-            <div className="mt-5 w-full flex flex-col gap-3 md:hidden">
-              <a href="#projects" className="w-full rounded-full bg-[#FD853A] px-6 py-3.5 text-center text-base font-semibold text-white shadow-md transition-colors hover:bg-[#e4752f]">
-                View Portfolio
-              </a>
-              <a href="#contact" className="w-full rounded-full border border-[#171717] px-6 py-3.5 text-center text-base font-semibold text-[#171717] transition-colors hover:bg-[#171717] hover:text-white">
-                Hire Me
-              </a>
+
+            <div className="mt-8 max-w-[340px]">
+              <p className="text-[16px] font-semibold leading-snug text-[#344054]">
+                I create premium logos, brand identities, social media designs, and marketing visuals that help businesses look trusted, professional, and impossible to ignore.
+              </p>
             </div>
           </div>
 
+          <div className="absolute -right-7 top-[150px] z-30 w-[430px]">
+            <h2 className="font-semibold leading-[1.04] text-[#171717] lg:text-[52px] xl:text-[58px]">
+              <span className="block">Professional</span>
+              <span className="block whitespace-nowrap text-[#FD853A]">Graphic Designer</span>
+            </h2>
+          </div>
+
+          <div className="absolute right-[26px] top-[370px] z-40 flex flex-col items-center gap-2">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={30} fill="#FD853A" stroke="#FD853A" />
+              ))}
+            </div>
+            <h3 className="text-[30px] font-bold leading-none text-[#171717]">3+ Years</h3>
+            <p className="text-sm text-[#171717]">Experience</p>
+          </div>
+
+          <Image
+            src="/my-pic.webp"
+            alt="Hammad graphic designer portrait"
+            width={952}
+            height={636}
+            className="absolute left-[52%] top-[-16px] z-20 w-[610px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] xl:left-[51.5%] xl:w-[640px]"
+            priority
+          />
+
+          <div className="absolute left-1/2 top-[485px] z-50 w-full -translate-x-1/2 px-4">
+            <div className="mx-auto flex max-w-[390px] justify-center">
+              <DualToggleButtons />
+            </div>
+          </div>
+        </div>
+
+        <div className="relative w-full min-w-0 flex flex-col items-center justify-start lg:hidden">
           <div className="relative w-full max-w-[760px] lg:max-w-[760px] xl:max-w-[800px] aspect-[1.28/1] sm:aspect-[3/2] flex flex-col items-center justify-center -mt-2 sm:-mt-6 lg:-mt-20 mx-auto px-2 sm:px-4">
-            <div className="absolute bottom-0 z-0 w-[78%] max-w-[640px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto">
+            <div className="absolute bottom-0 z-0 w-[78%] max-w-[640px] aspect-[2/1] overflow-hidden flex items-center justify-center pointer-events-auto [mask-image:linear-gradient(to_bottom,#000_62%,transparent_100%)]">
               <div className="absolute w-full h-full bg-[#FEB273] rounded-t-full" />
+            </div>
+
+            <div className="pointer-events-none absolute inset-x-0 top-[10%] z-10 h-[58%]">
+              <span className="absolute left-[8%] top-[14%] text-[clamp(28px,7.8vw,44px)] font-semibold leading-none text-[#171717]">
+                I&apos;m
+              </span>
+              <span className="absolute left-1/2 top-[27%] w-[116%] -translate-x-1/2 text-center text-[clamp(52px,16.5vw,104px)] font-semibold leading-none text-[#FD853A]">
+                HAMMAD
+              </span>
             </div>
 
             <div className="absolute bottom-[2%] z-10 hidden w-[78%] max-w-[640px] md:block transition-all duration-500 ease-in-out opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100">
@@ -75,18 +115,21 @@ export default function Home() {
               <DualToggleButtons />
             </div>
           </div>
-        </div>
 
-        <div className="hidden lg:flex lg:absolute lg:right-[52px] xl:right-[71px] lg:top-[350px] xl:top-[370px] w-[190px] h-[125px] flex-col items-end justify-end gap-2 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
-          <div className="flex gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={32} fill="#FD853A" stroke="#FD853A" />
-            ))}
+          <div className="mt-2 flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
+            <h1 className="flex w-full max-w-full flex-col items-center text-center font-semibold leading-[0.95] text-[clamp(38px,10.8vw,64px)] sm:text-[64px] md:text-[74px] xl:text-[88px] text-[#171717]">
+              <span>Professional</span>
+              <span className="whitespace-nowrap">Visual Designer</span>
+            </h1>
+            <div className="mt-4 w-full flex flex-col gap-3 md:hidden">
+              <a href="#projects" className="w-full rounded-full bg-[#FD853A] px-6 py-3.5 text-center text-base font-semibold text-white shadow-md transition-colors hover:bg-[#e4752f]">
+                View Portfolio
+              </a>
+              <a href="#contact" className="w-full rounded-full border border-[#171717] px-6 py-3.5 text-center text-base font-semibold text-[#171717] transition-colors hover:bg-[#171717] hover:text-white">
+                Hire Me
+              </a>
+            </div>
           </div>
-          <h1 className="text-[32px] font-bold text-[#171717] leading-none whitespace-nowrap">
-            3+ Years
-          </h1>
-          <p className="text-sm text-[#171717]">Experience</p>
         </div>
       </section>
 
