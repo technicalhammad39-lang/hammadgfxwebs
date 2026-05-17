@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SourceBackLink from "@/components/ui/SourceBackLink";
 import { getPortfolioProject, portfolioData } from "@/data/data";
+import { getProjectBySlug } from "@/lib/public-content";
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return portfolioData.map((project) => ({ slug: project.slug }));
@@ -12,9 +15,40 @@ type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+async function resolveProject(slug: string) {
+  const firestoreProject = await getProjectBySlug(slug);
+  const fallbackProject = getPortfolioProject(slug);
+
+  if (firestoreProject) {
+    return {
+      title: firestoreProject.title,
+      category: firestoreProject.category,
+      shortDescription: firestoreProject.shortDescription,
+      fullDescription: firestoreProject.fullDescription,
+      services: firestoreProject.servicesUsed,
+      mainImage: firestoreProject.mainImageUrl,
+      images: firestoreProject.images || [],
+    };
+  }
+
+  if (fallbackProject) {
+    return {
+      title: fallbackProject.title,
+      category: fallbackProject.category,
+      shortDescription: fallbackProject.desc,
+      fullDescription: fallbackProject.solution,
+      services: fallbackProject.services,
+      mainImage: fallbackProject.image,
+      images: [],
+    };
+  }
+
+  return null;
+}
+
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getPortfolioProject(slug);
+  const project = await resolveProject(slug);
 
   if (!project) {
     return {
@@ -24,21 +58,23 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
   return {
     title: `${project.title} | Hammad GFX Portfolio`,
-    description: project.desc,
+    description: project.shortDescription,
     openGraph: {
       title: `${project.title} | Hammad GFX`,
-      description: project.desc,
+      description: project.shortDescription,
     },
   };
 }
 
 export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getPortfolioProject(slug);
+  const project = await resolveProject(slug);
 
   if (!project) {
     notFound();
   }
+
+  const galleryImages = [project.mainImage, ...project.images].filter(Boolean);
 
   return (
     <main className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-white px-5 pb-16 pt-4 sm:px-6 sm:pt-6 lg:px-[71px]">
@@ -50,7 +86,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             <div>
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-[#FD853A]">{project.category}</p>
               <h1 className="text-[42px] font-semibold leading-[0.98] sm:text-[64px] lg:text-[78px]">{project.title}</h1>
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">{project.desc}</p>
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">{project.shortDescription}</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <a href="/#contact" className="rounded-full bg-[#FD853A] px-6 py-3.5 text-center text-base font-semibold text-white transition-colors hover:bg-[#e46e24]">
@@ -62,13 +98,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             </div>
           </div>
 
-          <div className="relative min-h-[280px] overflow-hidden rounded-[28px] bg-white/10 sm:min-h-[360px]">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#FD853A]/80 via-[#171717] to-white/10" />
-            <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
-            <div className="absolute bottom-8 left-8 right-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/70">Project Preview</p>
-              <h2 className="mt-3 text-4xl font-semibold leading-none text-white sm:text-5xl">{project.title}</h2>
-            </div>
+          <div className="overflow-hidden rounded-[28px] bg-white/10">
+            {project.mainImage ? (
+              <img src={project.mainImage} alt={project.title} className="h-auto w-full" />
+            ) : (
+              <div className="flex min-h-[280px] items-center justify-center text-white/60">No project image</div>
+            )}
           </div>
         </section>
 
@@ -81,25 +116,18 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           ))}
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-[32px] bg-[#F2F4F7] p-6 sm:p-8">
-            <h2 className="text-2xl font-semibold text-[#171717]">Project Overview</h2>
-            <p className="mt-4 leading-relaxed text-[#667085]">{project.overview}</p>
-          </div>
-          <div className="rounded-[32px] bg-[#F2F4F7] p-6 sm:p-8">
-            <h2 className="text-2xl font-semibold text-[#171717]">Design Challenge</h2>
-            <p className="mt-4 leading-relaxed text-[#667085]">{project.challenge}</p>
-          </div>
-          <div className="rounded-[32px] bg-[#F2F4F7] p-6 sm:p-8">
-            <h2 className="text-2xl font-semibold text-[#171717]">Final Result</h2>
-            <p className="mt-4 leading-relaxed text-[#667085]">{project.result}</p>
-          </div>
+        <section className="rounded-[32px] border border-[#FD853A]/25 bg-[#FFF6ED] p-6 sm:p-8 lg:p-10">
+          <h2 className="text-3xl font-semibold text-[#171717]">Project Details</h2>
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#667085]">{project.fullDescription}</p>
         </section>
 
-        <section className="rounded-[32px] border border-[#FD853A]/25 bg-[#FFF6ED] p-6 sm:p-8 lg:p-10">
-          <h2 className="text-3xl font-semibold text-[#171717]">Design Solution</h2>
-          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#667085]">{project.solution}</p>
-        </section>
+        {galleryImages.length > 0 && (
+          <section className="columns-1 gap-6 md:columns-2">
+            {galleryImages.map((image) => (
+              <img key={image} src={image} alt={project.title} className="mb-6 h-auto w-full break-inside-avoid rounded-[24px]" />
+            ))}
+          </section>
+        )}
       </article>
     </main>
   );

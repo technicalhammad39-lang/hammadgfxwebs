@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SourceBackLink from "@/components/ui/SourceBackLink";
 import { blogs, getBlogPost } from "@/data/data";
+import { blogDocToBlog } from "@/lib/content-types";
+import { getBlogBySlug } from "@/lib/public-content";
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return blogs.map((post) => ({ slug: post.slug }));
@@ -14,9 +17,20 @@ type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+async function resolveBlog(slug: string) {
+  const firestoreBlog = await getBlogBySlug(slug);
+  const fallbackBlog = getBlogPost(slug);
+
+  if (firestoreBlog) {
+    return blogDocToBlog(firestoreBlog);
+  }
+
+  return fallbackBlog || null;
+}
+
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await resolveBlog(slug);
 
   if (!post) {
     return {
@@ -36,7 +50,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await resolveBlog(slug);
 
   if (!post) {
     notFound();
@@ -56,25 +70,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="flex flex-wrap gap-3 text-sm font-semibold text-[#FD853A]">
             <span>{post.category}</span>
             <span aria-hidden="true">/</span>
-            <span>{post.date}</span>
+            <span>{post.date || "Hammad GFX"}</span>
             <span aria-hidden="true">/</span>
-            <span>Author: Hammad GFX</span>
+            <span>Author: {post.name}</span>
           </div>
           <h1 className="mt-5 text-[38px] font-semibold leading-[1.02] sm:text-[58px] lg:text-[72px]">{post.title}</h1>
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-white/75 sm:text-lg">{post.excerpt}</p>
         </header>
 
-        <div className="relative h-[280px] overflow-hidden rounded-[32px] bg-[#171717] sm:h-[420px]">
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            priority
-            sizes="(max-width: 768px) calc(100vw - 40px), 1120px"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#FD853A]/30 via-black/10 to-transparent" />
-        </div>
+        {post.image && (
+          <div className="overflow-hidden rounded-[32px] bg-[#171717]">
+            <img src={post.image} alt={post.title} className="h-auto w-full" />
+          </div>
+        )}
 
         <section className="rounded-[32px] border border-[#E4E7EC] bg-white p-6 shadow-sm sm:p-8 lg:p-10">
           <div className="space-y-6 text-lg leading-relaxed text-[#344054]">

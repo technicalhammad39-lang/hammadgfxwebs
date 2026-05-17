@@ -1,8 +1,7 @@
-﻿import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import PortfolioCard from "@/components/ui/PortfolioCard";
-import { portfolioCategories, portfolioData } from "@/data/data";
+import PortfolioGallery from "@/components/sections/PortfolioGallery";
+import { portfolioData } from "@/data/data";
 
 export const metadata: Metadata = {
   title: "Portfolio | Hammad GFX",
@@ -20,9 +19,6 @@ type PortfolioPageProps = {
 export default async function PortfolioPage({ searchParams }: PortfolioPageProps) {
   const params = await searchParams;
   const activeCategory = params?.category ?? "All";
-  const projects = activeCategory === "All"
-    ? portfolioData
-    : portfolioData.filter((project) => project.category === activeCategory);
 
   return (
     <main className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-white px-5 pb-16 pt-4 sm:px-6 sm:pt-6 lg:px-[71px]">
@@ -39,25 +35,8 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          {portfolioCategories.map((category) => (
-            <Link
-              key={category}
-              href={category === "All" ? "/portfolio" : `/portfolio?category=${encodeURIComponent(category)}`}
-              className={`rounded-full px-5 py-3 text-sm font-semibold transition-colors sm:text-base ${activeCategory === category ? "bg-[#FD853A] text-white" : "bg-[#F2F4F7] text-[#171717] hover:bg-[#171717] hover:text-white"}`}
-            >
-              {category}
-            </Link>
-          ))}
-        </div>
-
-        <div className="grid w-full gap-6 lg:grid-cols-2">
-          {projects.map((project, index) => (
-            <PortfolioCard key={project.slug} {...project} priority={index < 2} />
-          ))}
-        </div>
+        <PortfolioGallery fallback={portfolioData} initialCategory={activeCategory} />
       </section>
     </main>
   );
 }
-

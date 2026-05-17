@@ -1,7 +1,7 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import BlogCard from "@/components/ui/Blog";
+import BlogGrid from "@/components/sections/BlogGrid";
 import { blogs } from "@/data/data";
 
 export const metadata: Metadata = {
@@ -29,11 +29,7 @@ export default function BlogPage() {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {blogs.map((post, index) => (
-            <BlogCard key={post.slug} {...post} priority={index === 0} />
-          ))}
-        </div>
+        <BlogGrid fallback={blogs} />
 
         <div className="rounded-[32px] bg-[#FFF6ED] p-6 sm:p-8">
           <h2 className="text-2xl font-semibold text-[#171717]">Need visuals for your brand?</h2>
@@ -46,4 +42,3 @@ export default function BlogPage() {
     </main>
   );
 }
-
