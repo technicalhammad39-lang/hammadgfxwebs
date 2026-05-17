@@ -1,6 +1,8 @@
 import { auth } from "@/lib/firebase";
 
-export async function uploadAdminFile(file: File, folder: "portfolio" | "blogs" | "profile" | "site-assets") {
+export type UploadFolder = "portfolio" | "blogs" | "services" | "profile" | "site-assets";
+
+export async function uploadAdminFile(file: File, folder: UploadFolder) {
   const token = await auth.currentUser?.getIdToken();
 
   if (!token) {
@@ -11,13 +13,17 @@ export async function uploadAdminFile(file: File, folder: "portfolio" | "blogs" 
   formData.append("file", file);
   formData.append("folder", folder);
 
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 30000);
+
   const response = await fetch("/api/admin/upload", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
     },
     body: formData,
-  });
+    signal: controller.signal,
+  }).finally(() => window.clearTimeout(timeoutId));
 
   const payload = await response.json();
 

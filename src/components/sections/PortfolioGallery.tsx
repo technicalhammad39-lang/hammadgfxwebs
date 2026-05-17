@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { portfolioCategories, PortfolioItem } from "@/data/data";
@@ -29,20 +29,19 @@ export default function PortfolioGallery({ fallback, initialCategory = "All" }: 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
 
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const snapshot = await getDocs(query(collection(db, "portfolioProjects"), where("status", "==", "published"), orderBy("order", "asc")));
+    const unsubscribe = onSnapshot(
+      query(collection(db, "portfolioProjects"), where("status", "==", "published"), orderBy("order", "asc")),
+      (snapshot) => {
         const items = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as PortfolioProjectDoc[];
-
-        if (items.length) {
-          setProjects(items);
-        }
-      } catch {
+        setProjects(items.length ? items : fallback.map(fallbackToDoc));
+      },
+      (error) => {
+        console.error("Portfolio realtime listener failed:", error);
         setProjects(fallback.map(fallbackToDoc));
-      }
-    };
+      },
+    );
 
-    loadProjects();
+    return unsubscribe;
   }, [fallback]);
 
   const categories = useMemo(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { Fragment, useEffect, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 import CustomeText from "@/components/ui/CustomeText";
@@ -12,20 +12,19 @@ export default function ExperienceSection({ fallback }: { fallback: Experience[]
   const [items, setItems] = useState<Experience[]>(fallback);
 
   useEffect(() => {
-    const loadExperience = async () => {
-      try {
-        const snapshot = await getDocs(query(collection(db, "workExperience"), where("status", "==", "published"), orderBy("order", "asc")));
+    const unsubscribe = onSnapshot(
+      query(collection(db, "workExperience"), where("status", "==", "published"), orderBy("order", "asc")),
+      (snapshot) => {
         const firestoreItems = snapshot.docs.map((doc) => experienceDocToExperience({ id: doc.id, ...doc.data() } as WorkExperienceDoc));
-
-        if (firestoreItems.length) {
-          setItems(firestoreItems);
-        }
-      } catch {
+        setItems(firestoreItems.length ? firestoreItems : fallback);
+      },
+      (error) => {
+        console.error("Experience realtime listener failed:", error);
         setItems(fallback);
-      }
-    };
+      },
+    );
 
-    loadExperience();
+    return unsubscribe;
   }, [fallback]);
 
   return (

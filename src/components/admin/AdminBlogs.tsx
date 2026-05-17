@@ -1,34 +1,57 @@
 "use client";
 
-import { collection, deleteDoc, doc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AdminButton, AdminCard, StatusMessage } from "@/components/admin/AdminUi";
+import { AdminButton, AdminCard, AdminSkeleton, AdminToast, ConfirmDialog, StatusMessage } from "@/components/admin/AdminUi";
 import { BlogDoc } from "@/lib/content-types";
+import { getActionErrorMessage, withAdminTimeout } from "@/lib/admin-action";
 import { db } from "@/lib/firebase";
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState<BlogDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-
-  const loadBlogs = async () => {
-    setLoading(true);
-    const snapshot = await getDocs(query(collection(db, "blogs"), orderBy("createdAt", "desc")));
-    setBlogs(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as BlogDoc[]);
-    setLoading(false);
-  };
+  const [messageType, setMessageType] = useState<"info" | "error" | "success">("success");
+  const [deleteTarget, setDeleteTarget] = useState<BlogDoc | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    loadBlogs();
+    setLoading(true);
+    const unsubscribe = onSnapshot(
+      query(collection(db, "blogs"), orderBy("createdAt", "desc")),
+      (snapshot) => {
+        setBlogs(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as BlogDoc[]);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Blogs load failed:", error);
+        setMessage(error.message || "Blogs failed to load.");
+        setMessageType("error");
+        setLoading(false);
+      },
+    );
+
+    return unsubscribe;
   }, []);
 
-  const removeBlog = async (blog: BlogDoc) => {
-    if (!blog.id || !window.confirm(`Delete "${blog.title}"?`)) return;
+  const removeBlog = async () => {
+    if (!deleteTarget?.id) return;
 
-    await deleteDoc(doc(db, "blogs", blog.id));
-    setMessage("Blog deleted.");
-    loadBlogs();
+    try {
+      setDeleting(true);
+      setMessage("");
+      await withAdminTimeout(deleteDoc(doc(db, "blogs", deleteTarget.id)), "Blog delete");
+      setMessage("Blog deleted.");
+      setMessageType("success");
+      setDeleteTarget(null);
+    } catch (error) {
+      console.error("Blog delete failed:", error);
+      setMessage(getActionErrorMessage(error, "Blog delete failed."));
+      setMessageType("error");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -43,9 +66,10 @@ export default function AdminBlogs() {
         </Link>
       </div>
 
-      <StatusMessage message={message} type="success" />
+      <AdminToast message={message} type={messageType} />
+      <StatusMessage message={message} type={messageType} />
 
-      {loading && <AdminCard>Loading blogs...</AdminCard>}
+      {loading && <AdminSkeleton rows={4} />}
       {!loading && blogs.length === 0 && <AdminCard>No blogs added yet.</AdminCard>}
 
       <div className="grid gap-5">
@@ -66,13 +90,22 @@ export default function AdminBlogs() {
               <Link href={`/admin/blogs/edit/${blog.id}`} className="rounded-full bg-[#171717] px-4 py-2 text-sm font-semibold text-white">
                 Edit
               </Link>
-              <AdminButton type="button" variant="danger" onClick={() => removeBlog(blog)}>
+              <AdminButton type="button" variant="danger" onClick={() => setDeleteTarget(blog)}>
                 Delete
               </AdminButton>
             </div>
           </AdminCard>
         ))}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete blog?"
+        description={`This will permanently delete "${deleteTarget?.title || "this blog"}".`}
+        loading={deleting}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={removeBlog}
+      />
     </div>
   );
 }

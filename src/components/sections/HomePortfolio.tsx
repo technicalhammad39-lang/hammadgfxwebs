@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import { collection, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PortfolioItem } from "@/data/data";
@@ -28,26 +28,25 @@ export default function HomePortfolio({ fallback }: { fallback: PortfolioItem[] 
   const [projects, setProjects] = useState<PortfolioProjectDoc[]>(fallback.slice(0, 3).map(fallbackToDoc));
 
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const snapshot = await getDocs(query(
+    const unsubscribe = onSnapshot(
+      query(
           collection(db, "portfolioProjects"),
           where("status", "==", "published"),
           where("showOnHome", "==", true),
           orderBy("order", "asc"),
-          limit(3)
-        ));
+          limit(3),
+      ),
+      (snapshot) => {
         const items = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as PortfolioProjectDoc[];
-
-        if (items.length) {
-          setProjects(items);
-        }
-      } catch {
+        setProjects(items.length ? items : fallback.slice(0, 3).map(fallbackToDoc));
+      },
+      (error) => {
+        console.error("Home portfolio realtime listener failed:", error);
         setProjects(fallback.slice(0, 3).map(fallbackToDoc));
-      }
-    };
+      },
+    );
 
-    loadProjects();
+    return unsubscribe;
   }, [fallback]);
 
   return (

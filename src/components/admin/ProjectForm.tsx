@@ -3,8 +3,9 @@
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
-import { AdminButton, AdminCard, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
+import { AdminButton, AdminCard, AdminToast, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
 import { portfolioCategories } from "@/data/data";
+import { getActionErrorMessage, withAdminTimeout } from "@/lib/admin-action";
 import { PortfolioProjectDoc } from "@/lib/content-types";
 import { db } from "@/lib/firebase";
 import { createSlug, parseList } from "@/lib/slug";
@@ -43,13 +44,19 @@ export default function ProjectForm({ mode }: { mode: "new" | "edit" }) {
     if (!isEdit || !documentId) return;
 
     const loadProject = async () => {
-      const snapshot = await getDoc(doc(db, "portfolioProjects", documentId));
+      try {
+        const snapshot = await getDoc(doc(db, "portfolioProjects", documentId));
 
-      if (snapshot.exists()) {
-        const data = { id: snapshot.id, ...snapshot.data() } as PortfolioProjectDoc;
-        setProject(data);
-        setServicesText(data.servicesUsed?.join("\n") || "");
-        setGalleryText(data.images?.join("\n") || "");
+        if (snapshot.exists()) {
+          const data = { id: snapshot.id, ...snapshot.data() } as PortfolioProjectDoc;
+          setProject(data);
+          setServicesText(data.servicesUsed?.join("\n") || "");
+          setGalleryText(data.images?.join("\n") || "");
+        }
+      } catch (error) {
+        console.error("Project load failed:", error);
+        setMessage(error instanceof Error ? error.message : "Project failed to load.");
+        setMessageType("error");
       }
     };
 
@@ -92,6 +99,7 @@ export default function ProjectForm({ mode }: { mode: "new" | "edit" }) {
       setMessage("Image uploaded successfully.");
       setMessageType("success");
     } catch (uploadError) {
+      console.error("Project image upload failed:", uploadError);
       setMessage(uploadError instanceof Error ? uploadError.message : "Image upload failed.");
       setMessageType("error");
     } finally {
@@ -122,19 +130,23 @@ export default function ProjectForm({ mode }: { mode: "new" | "edit" }) {
 
     try {
       if (isEdit && documentId) {
-        await updateDoc(doc(db, "portfolioProjects", documentId), payload);
+        await withAdminTimeout(updateDoc(doc(db, "portfolioProjects", documentId), payload), "Project update");
       } else {
-        await addDoc(collection(db, "portfolioProjects"), {
-          ...payload,
-          createdAt: serverTimestamp(),
-        });
+        await withAdminTimeout(
+          addDoc(collection(db, "portfolioProjects"), {
+            ...payload,
+            createdAt: serverTimestamp(),
+          }),
+          "Project save",
+        );
       }
 
       setMessage("Project saved successfully.");
       setMessageType("success");
-      router.push("/admin/projects");
+      window.setTimeout(() => router.push("/admin/projects"), 700);
     } catch (saveError) {
-      setMessage(saveError instanceof Error ? saveError.message : "Project save failed.");
+      console.error("Project save failed:", saveError);
+      setMessage(getActionErrorMessage(saveError, "Project save failed."));
       setMessageType("error");
     } finally {
       setSaving(false);
@@ -143,6 +155,7 @@ export default function ProjectForm({ mode }: { mode: "new" | "edit" }) {
 
   return (
     <form onSubmit={save} className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <AdminToast message={message} type={messageType} />
       <AdminCard className="flex flex-col gap-5">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#FD853A]">Portfolio Project</p>

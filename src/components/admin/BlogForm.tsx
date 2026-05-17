@@ -3,8 +3,9 @@
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
-import { AdminButton, AdminCard, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
+import { AdminButton, AdminCard, AdminToast, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
 import { BlogDoc } from "@/lib/content-types";
+import { getActionErrorMessage, withAdminTimeout } from "@/lib/admin-action";
 import { db } from "@/lib/firebase";
 import { createSlug, parseList } from "@/lib/slug";
 import { uploadAdminFile } from "@/lib/upload-client";
@@ -41,12 +42,18 @@ export default function BlogForm({ mode }: { mode: "new" | "edit" }) {
     if (!isEdit || !documentId) return;
 
     const loadBlog = async () => {
-      const snapshot = await getDoc(doc(db, "blogs", documentId));
+      try {
+        const snapshot = await getDoc(doc(db, "blogs", documentId));
 
-      if (snapshot.exists()) {
-        const data = { id: snapshot.id, ...snapshot.data() } as BlogDoc;
-        setBlog(data);
-        setTagsText(data.tags?.join("\n") || "");
+        if (snapshot.exists()) {
+          const data = { id: snapshot.id, ...snapshot.data() } as BlogDoc;
+          setBlog(data);
+          setTagsText(data.tags?.join("\n") || "");
+        }
+      } catch (error) {
+        console.error("Blog load failed:", error);
+        setMessage(error instanceof Error ? error.message : "Blog failed to load.");
+        setMessageType("error");
       }
     };
 
@@ -80,6 +87,7 @@ export default function BlogForm({ mode }: { mode: "new" | "edit" }) {
       setMessage("Featured image uploaded.");
       setMessageType("success");
     } catch (uploadError) {
+      console.error("Blog image upload failed:", uploadError);
       setMessage(uploadError instanceof Error ? uploadError.message : "Upload failed.");
       setMessageType("error");
     } finally {
@@ -106,19 +114,23 @@ export default function BlogForm({ mode }: { mode: "new" | "edit" }) {
 
     try {
       if (isEdit && documentId) {
-        await updateDoc(doc(db, "blogs", documentId), payload);
+        await withAdminTimeout(updateDoc(doc(db, "blogs", documentId), payload), "Blog update");
       } else {
-        await addDoc(collection(db, "blogs"), {
-          ...payload,
-          createdAt: serverTimestamp(),
-        });
+        await withAdminTimeout(
+          addDoc(collection(db, "blogs"), {
+            ...payload,
+            createdAt: serverTimestamp(),
+          }),
+          "Blog save",
+        );
       }
 
       setMessage("Blog saved successfully.");
       setMessageType("success");
-      router.push("/admin/blogs");
+      window.setTimeout(() => router.push("/admin/blogs"), 700);
     } catch (saveError) {
-      setMessage(saveError instanceof Error ? saveError.message : "Blog save failed.");
+      console.error("Blog save failed:", saveError);
+      setMessage(getActionErrorMessage(saveError, "Blog save failed."));
       setMessageType("error");
     } finally {
       setSaving(false);
@@ -127,6 +139,7 @@ export default function BlogForm({ mode }: { mode: "new" | "edit" }) {
 
   return (
     <form onSubmit={save} className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <AdminToast message={message} type={messageType} />
       <AdminCard className="flex flex-col gap-5">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#FD853A]">Blog</p>

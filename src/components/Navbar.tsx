@@ -80,7 +80,7 @@ const Navbar = () => {
 
     return (
         <>
-        <nav className={`fixed left-1/2 top-4 sm:top-6 w-[calc(100%_-_32px)] max-w-[1298px] h-[58px] sm:h-[64px] md:h-[66px] lg:h-[72px] bg-[#171717] text-white px-5 sm:px-8 md:px-2.5 rounded-[25px] sm:rounded-[35px] lg:rounded-[50px] backdrop-blur-[15px] border border-white mx-auto flex items-center justify-between z-50 transition-transform duration-300 ease-out -translate-x-1/2 ${isNavVisible ? 'translate-y-0' : '-translate-y-[140%]'}`}>
+        <nav className={`site-nav-load fixed left-1/2 top-4 sm:top-6 w-[calc(100%_-_32px)] max-w-[1298px] h-[58px] sm:h-[64px] md:h-[66px] lg:h-[72px] bg-[#171717] text-white px-5 sm:px-8 md:px-2.5 rounded-[25px] sm:rounded-[35px] lg:rounded-[50px] backdrop-blur-[15px] border border-white mx-auto flex items-center justify-between z-50 transition-transform duration-300 ease-out -translate-x-1/2 ${isNavVisible ? 'translate-y-0' : '-translate-y-[140%]'}`}>
             {/* Left Menu (Desktop) */}
             <div className="hidden md:flex flex-1 justify-start gap-1 lg:gap-2.5">
                 {menuItems.slice(0, 3).map((item) => (

@@ -11,6 +11,9 @@ import Reveal from "@/components/ui/Reveal";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import HomePortfolio from "@/components/sections/HomePortfolio";
 import HomeBlogSlider from "@/components/sections/HomeBlogSlider";
+import ServicesSection from "@/components/sections/ServicesSection";
+import ContactForm from "@/components/ContactForm";
+import SiteEmail from "@/components/SiteEmail";
 
 export default function Home() {
   return (
@@ -25,12 +28,12 @@ export default function Home() {
             alt=""
             width={5542}
             height={1748}
-            className="hero-bottom-shape absolute -bottom-7 left-1/2 z-0 !h-[335px] w-[150vw] !max-w-none -translate-x-1/2 object-fill object-bottom lg:!h-[365px] lg:w-[125vw] xl:w-[118vw]"
+            className="hero-bottom-shape hero-load-shape absolute -bottom-7 left-1/2 z-0 !h-[335px] w-[150vw] !max-w-none -translate-x-1/2 object-fill object-bottom lg:!h-[365px] lg:w-[125vw] xl:w-[118vw]"
             priority
             aria-hidden="true"
           />
 
-          <div className="absolute left-0 top-[72px] z-30 lg:top-[52px] xl:top-[40px]">
+          <div className="hero-load-left absolute left-0 top-[72px] z-30 lg:top-[52px] xl:top-[40px]">
             <h1 className="font-semibold leading-[0.92] text-[#171717]">
               <span className="block text-[40px] lg:text-[50px] xl:text-[62px]">Hey! I&apos;m</span>
               <span className="block text-[56px] text-[#FD853A] lg:text-[76px] xl:text-[94px]">Hammad</span>
@@ -43,7 +46,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute right-0 top-[165px] z-30 w-[360px] origin-top-right scale-[0.76] rounded-[32px] bg-white/35 px-4 py-3 backdrop-blur-[8px] lg:right-0 lg:top-[140px] lg:w-[410px] lg:scale-[0.84] lg:bg-white/40 lg:backdrop-blur-[10px] xl:-right-7 xl:top-[125px] xl:w-[430px] xl:scale-100">
+          <div className="hero-load-right absolute right-0 top-[165px] z-30 w-[360px] origin-top-right scale-[0.76] rounded-[32px] bg-white/35 px-4 py-3 backdrop-blur-[8px] lg:right-0 lg:top-[140px] lg:w-[410px] lg:scale-[0.84] lg:bg-white/40 lg:backdrop-blur-[10px] xl:-right-7 xl:top-[125px] xl:w-[430px] xl:scale-100">
             <h2 className="font-semibold leading-[1.04] text-[#171717] text-[34px] lg:text-[42px] xl:text-[58px]">
               <span className="block">Professional</span>
               <span className="hero-rotating-line">
@@ -53,7 +56,7 @@ export default function Home() {
               </span>
             </h2>
 
-            <div className="mt-5 flex w-full max-w-[420px] items-center gap-4 rounded-[28px] bg-white/35 px-3 py-2 backdrop-blur-[6px] lg:max-w-[390px] xl:max-w-[420px]">
+            <div className="hero-load-stats mt-5 flex w-full max-w-[420px] items-center gap-4 rounded-[28px] bg-white/35 px-3 py-2 backdrop-blur-[6px] lg:max-w-[390px] xl:max-w-[420px]">
               <div className="flex flex-col items-start gap-1">
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
@@ -81,11 +84,11 @@ export default function Home() {
             alt="Hammad graphic designer portrait"
             width={952}
             height={636}
-            className="hero-portrait-fade absolute left-[45%] top-[48px] z-20 w-[360px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] lg:left-[49.5%] lg:top-[10px] lg:w-[510px] xl:left-[51.5%] xl:top-[-16px] xl:w-[640px]"
+            className="hero-portrait-fade hero-load-portrait absolute left-[45%] top-[48px] z-20 w-[360px] -translate-x-1/2 object-contain transition-transform duration-500 group-hover:scale-[1.015] lg:left-[49.5%] lg:top-[10px] lg:w-[510px] xl:left-[51.5%] xl:top-[-16px] xl:w-[640px]"
             priority
           />
 
-          <div className="absolute left-1/2 top-[420px] z-50 w-full -translate-x-1/2 px-4 lg:top-[485px]">
+          <div className="hero-load-buttons absolute left-1/2 top-[420px] z-50 w-full -translate-x-1/2 px-4 lg:top-[485px]">
             <div className="mx-auto flex max-w-[390px] justify-center">
               <DualToggleButtons />
             </div>
@@ -124,7 +127,7 @@ export default function Home() {
               alt="Hammad graphic designer portrait"
               width={952}
               height={636}
-              className="hero-portrait-fade relative z-20 w-[68%] max-w-[460px] sm:w-[62%] md:w-[56%] lg:w-[50%] xl:w-[48%] h-auto translate-y-8 object-contain mt-0"
+              className="hero-portrait-fade hero-load-portrait relative z-20 w-[68%] max-w-[460px] sm:w-[62%] md:w-[56%] lg:w-[50%] xl:w-[48%] h-auto translate-y-8 object-contain mt-0"
               priority
             />
 
@@ -133,7 +136,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-2 flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
+          <div className="hero-load-left mt-2 flex w-full max-w-[940px] flex-col items-center justify-center transition-transform duration-300 ease-in-out group-hover:scale-[1.01] px-0 sm:px-6">
             <h1 className="flex w-full max-w-full flex-col items-center text-center font-semibold leading-[0.95] text-[clamp(38px,10.8vw,64px)] sm:text-[64px] md:text-[74px] xl:text-[88px] text-[#171717]">
               <span>Professional</span>
               <span className="hero-rotating-line">
@@ -174,12 +177,7 @@ export default function Home() {
         </Reveal>
 
         <div className="relative w-full max-w-[1299px] flex items-start justify-center">
-          <GenericSlider
-            data={cardData}
-            slidesPerView={3}
-            heightClass="h-auto"
-            cardType="hover"
-          />
+          <ServicesSection fallback={cardData} />
         </div>
       </section>
 
@@ -350,17 +348,13 @@ export default function Home() {
           </div>
 
           <ClientOnly>
-            <input
-              type="text"
-              placeholder="Enter Email Address"
-              className="w-full md:flex-1 px-4 py-2 rounded-full text-center md:text-left text-base sm:text-lg outline-none bg-transparent text-[#1D2939] placeholder:text-[#667085]"
-            />
-
-            <button className="w-full sm:w-fit px-6 md:px-12 py-2.5 md:py-3 rounded-full bg-[#FD853A] hover:bg-[#e4752f] text-white text-base sm:text-lg font-semibold transition duration-300">
-              Send
-            </button>
+            <ContactForm />
           </ClientOnly>
         </div>
+
+        <ClientOnly>
+          <SiteEmail className="text-base font-semibold text-[#171717] transition-colors hover:text-[#FD853A]" />
+        </ClientOnly>
 
         <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-[#000000]">
           {iconAndText.map((data, index) => {

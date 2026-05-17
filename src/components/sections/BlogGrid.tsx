@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import BlogCard from "@/components/ui/Blog";
 import { Blog } from "@/data/data";
@@ -11,24 +11,24 @@ export default function BlogGrid({ fallback, limitCount }: { fallback: Blog[]; l
   const [blogs, setBlogs] = useState<Blog[]>(fallback);
 
   useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const snapshot = await getDocs(query(collection(db, "blogs"), where("status", "==", "published"), orderBy("createdAt", "desc")));
+    const unsubscribe = onSnapshot(
+      query(collection(db, "blogs"), where("status", "==", "published"), orderBy("createdAt", "desc")),
+      (snapshot) => {
         let items = snapshot.docs.map((doc) => blogDocToBlog({ id: doc.id, ...doc.data() } as BlogDoc));
 
         if (limitCount) {
           items = items.slice(0, limitCount);
         }
 
-        if (items.length) {
-          setBlogs(items);
-        }
-      } catch {
+        setBlogs(items.length ? items : limitCount ? fallback.slice(0, limitCount) : fallback);
+      },
+      (error) => {
+        console.error("Blog grid realtime listener failed:", error);
         setBlogs(limitCount ? fallback.slice(0, limitCount) : fallback);
-      }
-    };
+      },
+    );
 
-    loadBlogs();
+    return unsubscribe;
   }, [fallback, limitCount]);
 
   if (blogs.length === 0) {

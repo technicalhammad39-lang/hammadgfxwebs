@@ -1,34 +1,57 @@
 "use client";
 
-import { collection, deleteDoc, doc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AdminButton, AdminCard, StatusMessage } from "@/components/admin/AdminUi";
+import { AdminButton, AdminCard, AdminSkeleton, AdminToast, ConfirmDialog, StatusMessage } from "@/components/admin/AdminUi";
 import { PortfolioProjectDoc } from "@/lib/content-types";
+import { getActionErrorMessage, withAdminTimeout } from "@/lib/admin-action";
 import { db } from "@/lib/firebase";
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState<PortfolioProjectDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-
-  const loadProjects = async () => {
-    setLoading(true);
-    const snapshot = await getDocs(query(collection(db, "portfolioProjects"), orderBy("order", "asc")));
-    setProjects(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as PortfolioProjectDoc[]);
-    setLoading(false);
-  };
+  const [messageType, setMessageType] = useState<"info" | "error" | "success">("success");
+  const [deleteTarget, setDeleteTarget] = useState<PortfolioProjectDoc | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    loadProjects();
+    setLoading(true);
+    const unsubscribe = onSnapshot(
+      query(collection(db, "portfolioProjects"), orderBy("order", "asc")),
+      (snapshot) => {
+        setProjects(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as PortfolioProjectDoc[]);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Projects load failed:", error);
+        setMessage(error.message || "Projects failed to load.");
+        setMessageType("error");
+        setLoading(false);
+      },
+    );
+
+    return unsubscribe;
   }, []);
 
-  const removeProject = async (project: PortfolioProjectDoc) => {
-    if (!project.id || !window.confirm(`Delete "${project.title}"?`)) return;
+  const removeProject = async () => {
+    if (!deleteTarget?.id) return;
 
-    await deleteDoc(doc(db, "portfolioProjects", project.id));
-    setMessage("Project deleted.");
-    loadProjects();
+    try {
+      setDeleting(true);
+      setMessage("");
+      await withAdminTimeout(deleteDoc(doc(db, "portfolioProjects", deleteTarget.id)), "Project delete");
+      setMessage("Project deleted.");
+      setMessageType("success");
+      setDeleteTarget(null);
+    } catch (error) {
+      console.error("Project delete failed:", error);
+      setMessage(getActionErrorMessage(error, "Project delete failed."));
+      setMessageType("error");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -43,11 +66,12 @@ export default function AdminProjects() {
         </Link>
       </div>
 
-      <StatusMessage message={message} type="success" />
+      <AdminToast message={message} type={messageType} />
+      <StatusMessage message={message} type={messageType} />
 
-      {loading && <AdminCard>Loading projects...</AdminCard>}
+      {loading && <AdminSkeleton rows={4} />}
 
-      {!loading && projects.length === 0 && <AdminCard>No projects found.</AdminCard>}
+      {!loading && projects.length === 0 && <AdminCard>No projects yet. Add your first project.</AdminCard>}
 
       <div className="grid gap-5">
         {projects.map((project) => (
@@ -67,13 +91,22 @@ export default function AdminProjects() {
               <Link href={`/admin/projects/edit/${project.id}`} className="rounded-full bg-[#171717] px-4 py-2 text-sm font-semibold text-white">
                 Edit
               </Link>
-              <AdminButton type="button" variant="danger" onClick={() => removeProject(project)}>
+              <AdminButton type="button" variant="danger" onClick={() => setDeleteTarget(project)}>
                 Delete
               </AdminButton>
             </div>
           </AdminCard>
         ))}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete project?"
+        description={`This will permanently delete "${deleteTarget?.title || "this project"}".`}
+        loading={deleting}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={removeProject}
+      />
     </div>
   );
 }

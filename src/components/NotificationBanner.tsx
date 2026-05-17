@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NotificationDoc } from "@/lib/content-types";
@@ -10,20 +10,24 @@ export default function NotificationBanner() {
   const [notification, setNotification] = useState<NotificationDoc | null>(null);
 
   useEffect(() => {
-    const loadNotification = async () => {
-      try {
-        const snapshot = await getDocs(query(collection(db, "notifications"), where("active", "==", true), orderBy("createdAt", "desc")));
+    const unsubscribe = onSnapshot(
+      query(collection(db, "notifications"), where("active", "==", true), orderBy("createdAt", "desc")),
+      (snapshot) => {
         const item = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))[0] as NotificationDoc | undefined;
 
         if (item && localStorage.getItem(`notification-${item.id}`) !== "dismissed") {
           setNotification(item);
+        } else {
+          setNotification(null);
         }
-      } catch {
+      },
+      (error) => {
+        console.error("Notifications realtime listener failed:", error);
         setNotification(null);
-      }
-    };
+      },
+    );
 
-    loadNotification();
+    return unsubscribe;
   }, []);
 
   if (!notification) return null;

@@ -62,6 +62,33 @@ export type NotificationDoc = {
   updatedAt?: unknown;
 };
 
+export type ServiceDoc = {
+  id?: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  fullDescription?: string;
+  imageUrl: string;
+  icon?: "Palette" | "Share2" | "PenTool" | "Printer" | "Monitor" | "FileText";
+  order: number;
+  status: PublishStatus;
+  createdAt?: unknown;
+  updatedAt?: unknown;
+};
+
+export type ContactMessageDoc = {
+  id?: string;
+  name?: string;
+  email: string;
+  phone?: string;
+  subject?: string;
+  message?: string;
+  source: "website";
+  status: "new" | "read" | "replied";
+  createdAt?: unknown;
+  updatedAt?: unknown;
+};
+
 export type SiteSettingsDoc = {
   heroTitle: string;
   heroAnimatedWords: string[];
@@ -71,6 +98,7 @@ export type SiteSettingsDoc = {
   linkedin: string;
   behance: string;
   instagram: string;
+  footerText?: string;
   cvUrl: string;
   updatedAt?: unknown;
 };

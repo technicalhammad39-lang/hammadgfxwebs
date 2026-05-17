@@ -1,9 +1,10 @@
 "use client";
 
-import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
 import { FormEvent, useEffect, useState } from "react";
-import { AdminButton, AdminCard, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
+import { AdminButton, AdminCard, AdminSkeleton, AdminToast, ConfirmDialog, Field, inputClass, StatusMessage } from "@/components/admin/AdminUi";
 import { experiences as defaultExperiences } from "@/data/data";
+import { getActionErrorMessage, withAdminTimeout } from "@/lib/admin-action";
 import { WorkExperienceDoc } from "@/lib/content-types";
 import { db } from "@/lib/firebase";
 
@@ -24,60 +25,103 @@ export default function AdminExperience() {
   const [form, setForm] = useState<WorkExperienceDoc>(emptyExperience);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-
-  const loadItems = async () => {
-    const snapshot = await getDocs(query(collection(db, "workExperience"), orderBy("order", "asc")));
-    setItems(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as WorkExperienceDoc[]);
-  };
+  const [messageType, setMessageType] = useState<"info" | "error" | "success">("success");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<WorkExperienceDoc | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    loadItems();
+    setLoading(true);
+    const unsubscribe = onSnapshot(
+      query(collection(db, "workExperience"), orderBy("order", "asc")),
+      (snapshot) => {
+        setItems(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as WorkExperienceDoc[]);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Experience load failed:", error);
+        setMessage(error.message || "Work experience failed to load.");
+        setMessageType("error");
+        setLoading(false);
+      },
+    );
+
+    return unsubscribe;
   }, []);
 
   const seedDefaults = async () => {
-    for (const [index, experience] of defaultExperiences.entries()) {
-      const [startDate, endDate = ""] = experience.duration.split(" - ");
-      await addDoc(collection(db, "workExperience"), {
-        companyName: experience.company,
-        role: experience.role,
-        location: "",
-        startDate,
-        endDate: endDate === "Present" ? "" : endDate,
-        currentlyWorking: endDate === "Present",
-        description: experience.desc,
-        order: index + 1,
-        status: "published",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-    }
+    try {
+      setSaving(true);
+      setMessage("");
 
-    setMessage("Default work experience added.");
-    loadItems();
+      for (const [index, experience] of defaultExperiences.entries()) {
+        const [startDate, endDate = ""] = experience.duration.split(" - ");
+        await withAdminTimeout(
+          addDoc(collection(db, "workExperience"), {
+            companyName: experience.company,
+            role: experience.role,
+            location: "",
+            startDate,
+            endDate: endDate === "Present" ? "" : endDate,
+            currentlyWorking: endDate === "Present",
+            description: experience.desc,
+            order: index + 1,
+            status: "published",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          }),
+          "Default experience save",
+        );
+      }
+
+      setMessage("Default work experience added.");
+      setMessageType("success");
+    } catch (error) {
+      console.error("Default experience seed failed:", error);
+      setMessage(getActionErrorMessage(error, "Default experience seed failed."));
+      setMessageType("error");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const save = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const payload = {
-      ...form,
-      order: Number(form.order) || 0,
-      updatedAt: serverTimestamp(),
-    };
+    try {
+      setSaving(true);
+      setMessage("");
 
-    if (editingId) {
-      await updateDoc(doc(db, "workExperience", editingId), payload);
-      setMessage("Experience updated.");
-    } else {
-      await addDoc(collection(db, "workExperience"), {
-        ...payload,
-        createdAt: serverTimestamp(),
-      });
-      setMessage("Experience added.");
+      const payload = {
+        ...form,
+        order: Number(form.order) || 0,
+        updatedAt: serverTimestamp(),
+      };
+
+      if (editingId) {
+        await withAdminTimeout(updateDoc(doc(db, "workExperience", editingId), payload), "Experience update");
+        setMessage("Experience updated.");
+      } else {
+        await withAdminTimeout(
+          addDoc(collection(db, "workExperience"), {
+            ...payload,
+            createdAt: serverTimestamp(),
+          }),
+          "Experience save",
+        );
+        setMessage("Experience added.");
+      }
+
+      setMessageType("success");
+      setForm(emptyExperience);
+      setEditingId(null);
+    } catch (error) {
+      console.error("Experience save failed:", error);
+      setMessage(getActionErrorMessage(error, "Experience save failed."));
+      setMessageType("error");
+    } finally {
+      setSaving(false);
     }
-
-    setForm(emptyExperience);
-    setEditingId(null);
-    loadItems();
   };
 
   const edit = (item: WorkExperienceDoc) => {
@@ -85,12 +129,23 @@ export default function AdminExperience() {
     setForm(item);
   };
 
-  const remove = async (item: WorkExperienceDoc) => {
-    if (!item.id || !window.confirm(`Delete "${item.role}"?`)) return;
+  const remove = async () => {
+    if (!deleteTarget?.id) return;
 
-    await deleteDoc(doc(db, "workExperience", item.id));
-    setMessage("Experience deleted.");
-    loadItems();
+    try {
+      setDeleting(true);
+      setMessage("");
+      await withAdminTimeout(deleteDoc(doc(db, "workExperience", deleteTarget.id)), "Experience delete");
+      setMessage("Experience deleted.");
+      setMessageType("success");
+      setDeleteTarget(null);
+    } catch (error) {
+      console.error("Experience delete failed:", error);
+      setMessage(getActionErrorMessage(error, "Experience delete failed."));
+      setMessageType("error");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -98,7 +153,8 @@ export default function AdminExperience() {
       <AdminCard>
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#FD853A]">Work Experience</p>
         <h2 className="mt-2 text-3xl font-semibold">{editingId ? "Edit Experience" : "Add Experience"}</h2>
-        <StatusMessage message={message} type="success" />
+        <AdminToast message={message} type={messageType} />
+        <StatusMessage message={message} type={messageType} />
 
         <form onSubmit={save} className="mt-6 flex flex-col gap-4">
           <Field label="Company Name">
@@ -137,15 +193,16 @@ export default function AdminExperience() {
             </Field>
           </div>
           <div className="flex flex-wrap gap-3">
-            <AdminButton type="submit">{editingId ? "Update Experience" : "Add Experience"}</AdminButton>
+            <AdminButton type="submit" disabled={saving}>{saving ? "Saving..." : editingId ? "Update Experience" : "Add Experience"}</AdminButton>
             {editingId && <AdminButton type="button" variant="light" onClick={() => { setEditingId(null); setForm(emptyExperience); }}>Cancel</AdminButton>}
-            {items.length === 0 && <AdminButton type="button" variant="dark" onClick={seedDefaults}>Add Default Data</AdminButton>}
+            {items.length === 0 && <AdminButton type="button" variant="dark" onClick={seedDefaults} disabled={saving}>{saving ? "Saving..." : "Add Default Data"}</AdminButton>}
           </div>
         </form>
       </AdminCard>
 
       <div className="flex flex-col gap-4">
-        {items.length === 0 && <AdminCard>No work experience found.</AdminCard>}
+        {loading && <AdminSkeleton rows={4} />}
+        {!loading && items.length === 0 && <AdminCard>No work experience found.</AdminCard>}
         {items.map((item) => (
           <AdminCard key={item.id}>
             <div className="flex flex-col justify-between gap-4 sm:flex-row">
@@ -157,12 +214,21 @@ export default function AdminExperience() {
               </div>
               <div className="flex gap-2">
                 <AdminButton type="button" variant="dark" onClick={() => edit(item)}>Edit</AdminButton>
-                <AdminButton type="button" variant="danger" onClick={() => remove(item)}>Delete</AdminButton>
+                <AdminButton type="button" variant="danger" onClick={() => setDeleteTarget(item)}>Delete</AdminButton>
               </div>
             </div>
           </AdminCard>
         ))}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete experience?"
+        description={`This will permanently delete "${deleteTarget?.role || "this experience"}".`}
+        loading={deleting}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={remove}
+      />
     </div>
   );
 }

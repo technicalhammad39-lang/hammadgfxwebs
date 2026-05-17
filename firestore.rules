@@ -22,14 +22,33 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /services/{document} {
+      allow read: if resource.data.status == "published" || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
     match /notifications/{document} {
       allow read: if resource.data.active == true || isAdmin();
       allow create, update, delete: if isAdmin();
     }
 
+    match /contactMessages/{document} {
+      allow create: if isAdmin() || (
+        request.resource.data.email is string &&
+        request.resource.data.email.size() > 3 &&
+        request.resource.data.source == "website" &&
+        request.resource.data.status == "new"
+      );
+      allow read, update, delete: if isAdmin();
+    }
+
     match /siteSettings/{document} {
       allow read: if true;
       allow create, update, delete: if isAdmin();
+    }
+
+    match /admins/{document} {
+      allow read, create, update, delete: if isAdmin();
     }
 
     match /{document=**} {

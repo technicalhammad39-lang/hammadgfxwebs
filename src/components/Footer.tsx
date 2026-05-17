@@ -5,6 +5,8 @@ import { ArrowUpRight, FacebookIcon, InstagramIcon, MessageCircle, TwitterIcon, 
 import CustomeText from "./ui/CustomeText";
 import ClientOnly from "./ui/ClientOnly";
 import Reveal from "./ui/Reveal";
+import ContactForm from "./ContactForm";
+import SiteEmail from "./SiteEmail";
 
 const Footer = () => {
     const navigation = [
@@ -27,7 +29,6 @@ const Footer = () => {
 
     const contact = [
         "WhatsApp: +92 3280830815",
-        "Email: clyrotechpk@gmail.com",
         "Portfolio: hammadgfx.online",
     ];
 
@@ -95,6 +96,9 @@ const Footer = () => {
                     <div className="flex flex-col gap-5">
                         <CustomeText title="Contact" className="text-[20px] font-semibold text-[#FD853A]" />
                         <div className="flex flex-col gap-3">
+                            <ClientOnly>
+                                <SiteEmail prefix="Email: " className="break-words text-[15px] text-[#FCFCFD] transition-colors hover:text-[#FD853A] sm:text-base" />
+                            </ClientOnly>
                             {contact.map((item) => (
                                 <span key={item} className="break-words text-[15px] text-[#FCFCFD] sm:text-base">
                                     {item}
@@ -105,20 +109,9 @@ const Footer = () => {
 
                     <div className="flex w-full flex-col gap-5">
                         <CustomeText title="Get the latest design insights" className="text-[20px] font-semibold text-[#FD853A]" />
-                        <div className="relative h-[50px] w-full">
-                            <ClientOnly>
-                                <input
-                                    type="text"
-                                    placeholder="Email Address"
-                                    className="h-full w-full rounded-[10px] border-none bg-white px-4 py-3 pr-14 text-[15px] text-black outline-none"
-                                />
-                                <button className="absolute right-0 top-0 flex h-full w-[50px] items-center justify-center rounded-r-[10px] bg-[#FD853A] transition-colors hover:bg-[#e46e24]">
-                                    <svg width="22" height="22" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.29602 3.48708C3.91012 2.38589 1.36183 4.66673 2.19279 7.15964L3.45424 10.9007C3.59136 11.3074 3.97267 11.5812 4.40182 11.5812H13C13.5523 11.5812 14 12.0289 14 12.5812C14 13.1335 13.5523 13.5812 13 13.5812H4.40182C3.97267 13.5812 3.59136 13.855 3.45424 14.2617L2.19281 18.0028C1.36183 20.4957 3.91012 22.7765 6.29603 21.6754L20.0983 15.3051C22.422 14.2326 22.422 10.9299 20.0983 9.85737L6.29602 3.48708Z" fill="#FCFCFD" />
-                                    </svg>
-                                </button>
-                            </ClientOnly>
-                        </div>
+                        <ClientOnly>
+                            <ContactForm compact />
+                        </ClientOnly>
                     </div>
                 </div>
 

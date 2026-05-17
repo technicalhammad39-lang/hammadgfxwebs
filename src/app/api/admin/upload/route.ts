@@ -6,7 +6,7 @@ import { createSlug } from "@/lib/slug";
 
 export const runtime = "nodejs";
 
-const allowedFolders = new Set(["portfolio", "blogs", "profile", "site-assets"]);
+const allowedFolders = new Set(["portfolio", "blogs", "services", "profile", "site-assets"]);
 const allowedMimeTypes = new Map([
   ["image/jpeg", "jpg"],
   ["image/png", "png"],
@@ -36,11 +36,11 @@ export async function POST(request: NextRequest) {
       return error("Only the configured admin can upload files.", 403);
     }
 
-    const uploadRoot = process.env.HOSTINGER_UPLOAD_ROOT;
-    const publicBaseUrl = process.env.NEXT_PUBLIC_UPLOAD_BASE_URL;
+    const uploadRoot = process.env.HOSTINGER_UPLOAD_ROOT || process.env.HOSTINGER_PUBLIC_UPLOAD_ROOT;
+    const publicBaseUrl = process.env.NEXT_PUBLIC_UPLOAD_BASE_URL || process.env.HOSTINGER_UPLOAD_PUBLIC_BASE;
 
     if (!uploadRoot || !publicBaseUrl) {
-      return error("Upload environment variables are not configured.", 500);
+      return error("Upload configuration missing", 500);
     }
 
     const formData = await request.formData();
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       return error("Only JPG, JPEG, PNG, and WEBP images are allowed.");
     }
 
-    const maxMb = Number(process.env.UPLOAD_MAX_MB || "10");
+    const maxMb = Number(process.env.UPLOAD_MAX_MB || process.env.HOSTINGER_UPLOAD_MAX_MB || "10");
     const maxBytes = maxMb * 1024 * 1024;
 
     if (file.size > maxBytes) {
@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (uploadError) {
     const message = uploadError instanceof Error ? uploadError.message : "Upload failed.";
+    console.error("Admin upload failed:", uploadError);
     return error(message, 500);
   }
 }

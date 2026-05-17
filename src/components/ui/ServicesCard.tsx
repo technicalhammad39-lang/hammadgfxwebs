@@ -17,7 +17,7 @@ interface HoverCardProps {
   priority?: boolean;
 }
 
-export default function ServicesCard({ title, desc, icon }: HoverCardProps) {
+export default function ServicesCard({ title, desc, icon, imageSrc }: HoverCardProps) {
   const Icon = serviceIcons[icon];
 
   return (
@@ -35,7 +35,12 @@ export default function ServicesCard({ title, desc, icon }: HoverCardProps) {
         </div>
       </div>
 
-      <div className="relative z-10 mt-6 flex flex-col gap-5">
+      <div className="relative z-10 mt-5 flex flex-col gap-4">
+        {imageSrc && (
+          <div className="overflow-hidden rounded-[22px] border border-white/15 bg-white/10 p-2">
+            <img src={imageSrc} alt={title} className="h-auto w-full rounded-[16px] object-contain" />
+          </div>
+        )}
         <p className="text-[15px] font-medium leading-snug text-white/85 sm:text-base">
           {desc}
         </p>
